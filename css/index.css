@@ -1,0 +1,74 @@
+@font-face{
+  font-family: customTypo;
+  src: url(Typo.otf);
+}
+
+html, body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background : none;
+}
+
+body{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.alignement{
+  display: block;
+  position: relative;
+}
+
+#videos{
+  width : 660px;
+  height : 760px;
+}
+
+#textArea{
+  width: 600px;
+}
+
+#textArea img, #textArea p{
+  position: absolute;
+}
+
+.bubbles{
+  width: 600px;
+}
+
+#textBubble{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width : 450px;
+  font-size: 45px;
+  font-family: customTypo;
+  text-shadow : 2px 2px 5px #111111;
+  margin-left: 80px;
+  margin-top: 53px;
+  overflow: hidden;
+}
+
+#textBubble span{
+  display: block;
+  margin-right: 18px;
+}
+
+#text span:last-child{
+  margin-right: 0px;
+}
+
+.video{
+  position: absolute;
+}
+
+.bubbles-left{
+  transform: scaleX(-1);
+}
