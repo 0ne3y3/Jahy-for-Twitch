@@ -1,15 +1,8 @@
-@font-face{
-  font-family: customTypo;
-  src: url(Typo.otf);
-}
-
 html, body{
-  height: 100%;
-  width: 100%;
   margin: 0;
   padding: 0;
+  background : rgba(0,0,0,0);
   overflow: hidden;
-  background : none;
 }
 
 body{
@@ -24,21 +17,8 @@ body{
   position: relative;
 }
 
-#videos{
-  width : 660px;
-  height : 760px;
-}
-
-#textArea{
-  width: 600px;
-}
-
 #textArea img, #textArea p{
   position: absolute;
-}
-
-.bubbles{
-  width: 600px;
 }
 
 #textBubble{
@@ -47,22 +27,12 @@ body{
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
-  width : 450px;
-  font-size: 45px;
-  font-family: customTypo;
-  text-shadow : 2px 2px 5px #111111;
-  margin-left: 80px;
-  margin-top: 53px;
-  overflow: hidden;
+  z-index: 2;
 }
 
 #textBubble span{
-  display: block;
-  margin-right: 18px;
-}
-
-#text span:last-child{
-  margin-right: 0px;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 .video{
@@ -71,4 +41,24 @@ body{
 
 .bubbles-left{
   transform: scaleX(-1);
+}
+
+#error{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  font-family: verdana;
+  font-weight: bold;
+  color: #FF1400;
+  width: 100%;
+  height: 100%;
+}
+
+#error-message{
+  text-align: center;
+  font-size: 40px;
 }
