@@ -27,10 +27,10 @@ The wiki page will explain to you all the customable options to setup your own c
 
 ## Exemples
 
-Video/Animation exemple :
+Video/Animation exemple :  
 ![Jahy Demo](demo/jahy-demo.gif)
 
-Image exemple :
+Image exemple :  
 ![Saki Demo](demo/saki-demo.gif)
 
 # Getting Started
