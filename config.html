@@ -2,98 +2,121 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Configure your Jahy</title>
+    <title>Configure your character</title>
     <link rel="stylesheet" type="text/css" href="css/config.css"></link>
   </head>
   <body>
     <div id="configuration">
-      <div id='general'>
+      <div id="nav-bar">
+        <div class='nav-bars' id='cat-1'>
+          <button class='nav-button-1 nav-active' id='nav-streamlabs'>Streamlabs</button>
+          <button class='nav-button-1' id='nav-twitch-chat'>Twitch chat</button>
+          <button class='nav-button-1' id='nav-others'>Others</button>
+          <a href='./tutorial/wiki.html' target="_blank"><button class='nav-button-1' id='nav-tutorial'>Tutorial & Wiki</button></a>
+        </div>
+        <p class="separator-small"></p>
+        <div class='nav-bars' id='cat-2'>
+          <button class='nav-button-2 nav-active' id='nav-general'>General</button>
+          <button class='nav-button-2' id='nav-advanced'>Advanced</button>
+          <button class='nav-button-2' id='nav-variation'>Variations</button>
+        </div>
+      </div>
+      <div class="tabs" id='general'>
         <h1>General configuration</h1>
         <div id="buttons-container">
           <button class="buttons" id="config-load">Load previous configuration</button>
           <button class="buttons" id="config-generate">Generate configuration</button>
         </div>
         <div class="separator"></div>
-        <form id='formGeneral'>
+        <form id='form-general'>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="streamlabsToken">Streamlabs token:</label><input type="text" name="streamlabsToken" placeholder="Enter your token here" value="">
+            <label class="labels-general labels-font-normal" for="streamlabs-token">Streamlabs token:</label><input type="text" name="streamlabs-token" placeholder="Enter your token here" value="">
           </div>
           <div>
-            <p class="formGeneralLabel">Activate speech bubble:</p>
-            <input type="radio" id="ActivateSpeechYes" name="ActivateSpeech" value="1" checked><label for="ActivateSpeechYes">Yes</label>
-            <input type="radio" id="ActivateSpeechNo" name="ActivateSpeech" value="0"><label for="ActivateSpeechNo">No</label>
+            <p class="p-general">Use video or image:</p>
+            <input type="radio" id="vimg-video" name="video-image" value="video" checked /><label for="vimg-video">Video</label>
+            <input type="radio" id="vimg-image" name="video-image" value="image" /><label for="vimg-image">Image</label>
+          </div>
+          <div id='img-animation-container' hidden>
+            <p class="p-general" hidden>Activate image animation:</p>
+            <input type="checkbox" name="img-animation-activate" hidden/><input type="number" name="img-animation-margin" value="0" disabled hidden/><span class="informations inline-text" hidden>pixels</span>
           </div>
           <div>
-            <p class="formGeneralLabel">Place speech bubble:</p>
-            <input type="radio" id="placeSpeechLeft" name="placeSpeech" value="left" checked><label for="placeSpeechLeft">On the left</label>
-            <input type="radio" id="placeSpeechRight" name="placeSpeech" value="right"><label for="placeSpeechRight">On the right</label>
-          </div>
-          <label class="labelsGeneral" for="colorText">Color text:</label><input type="text" name="colorText" placeholder="Enter an hexadecimal color" value="#000000">
-          <div>
-            <p class="formGeneralLabel">Shadow on text:</p>
-            <input type="radio" id="shadowON" name="shadowText" value="ON" class="shadow-input"><label for="shadowON">ON</label>
-            <input type="radio" id="shadowOFF" name="shadowText" value="OFF" class="shadow-input" checked><label for="shadowOFF">OFF</label>
+            <p class="p-general">Activate speech bubble:</p>
+            <input type="radio" id="activate-speech-yes" name="activate-speech" value="1" checked/><label for="activate-speech-yes">Yes</label>
+            <input type="radio" id="activate-speech-no" name="activate-speech" value="0"/><label for="activate-speech-no">No</label>
           </div>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="BasevideoName">Base video:</label><input type="text" name="baseVideoName" value="Basic"><p id='generalDot' class="informations inline-text">.</p><input class="extensions" type="text" name="baseVideoExtension" value="webm">
+            <p class="p-general">Place speech bubble:</p>
+            <input type="radio" id="place-speech-left" name="place-speech" value="left" checked/><label for="place-speech-left">On the left</label>
+            <input type="radio" id="place-speech-right" name="place-speech" value="right"/><label for="place-speech-right">On the right</label>
+          </div>
+          <label class="labels-general" for="color-text">Color text:</label><input type="text" name="color-text" placeholder="Enter an hexadecimal color" value="#000000"/>
+          <div>
+            <p class="p-general">Shadow on text:</p>
+            <input type="radio" id="shadow-on" name="shadow-text" value="ON"><label for="shadow-on"/>ON</label>
+            <input type="radio" id="shadow-off" name="shadow-text" value="OFF" checked><label for="shadow-off"/>OFF</label>
           </div>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="intervalTime">Video loop interval:</label><input type="number" name="intervalTime" value="5"><span class="informations inline-text">seconds</span>
+            <label class="labels-general labels-font-normal" for="base-video-name">Base video:</label><input type="text" name="base-video-name" value="Basic"><p id='general-dot' class="informations inline-text">.</p><input class="extensions" type="text" name="base-video-extension" value="webm"/>
           </div>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="marginTextTop">Margin text top:</label><input type="number" name="marginTextTop" value="40"><span class="informations inline-text">pixels</span>
+            <label class="labels-general labels-font-normal" for="interval-time">Video loop interval:</label><input type="number" name="interval-time" value="5"/><span class="informations inline-text">seconds</span>
           </div>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="centerText">Center text:</label><input type="number" name="centerText" value="65"><span class="informations inline-text">pixels</span>
+            <label class="labels-general labels-font-normal" for="margin-text-top">Margin text top:</label><input type="number" name="margin-text-top" value="40"/><span class="informations inline-text">pixels</span>
           </div>
           <div>
-            <label class="labelsGeneral labelsFontNormal" for="gapInbetween">Gap :</label><input type="number" name="gapInbetween" value="15"><span class="informations inline-text">pixels</span>
+            <label class="labels-general labels-font-normal" for="center-text">Center text:</label><input type="number" name="center-text" value="70"/><span class="informations inline-text">pixels</span>
+          </div>
+          <div>
+            <label class="labels-general labels-font-normal" for="gap-in-between">Gap :</label><input type="number" name="gap-in-between" value="15"/><span class="informations inline-text">pixels</span>
           </div>
         </form>
       </div>
-      <div id='advanced'>
+      <div class="tabs" id='advanced' hidden>
         <h1>Advanced configuration</h1>
         <div id="alerts-config">
           <div>
             <h2>Follow</h2>
             <p class="descriptions">Text displayed when someone follow you.</p>
             <form class="alerts-form" id="follow-form" data-type="follow">
-              <input class="selectPreview" type="radio" name="selectPreview" value="follow">
+              <input class="select-preview" type="radio" name="select-preview" value="follow" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
-                  <label for="followText">Follow text:</label><input type="text" name="followText" placeholder="Type your message here" value="${name} is following ! Thanks you.">
+                  <label for="follow-text">Follow text:</label><input type="text" name="follow-text" placeholder="Type your message here" value="${name} is following ! Thanks you." />
                 </div>
                 <div class="options">
-                  <label for="followFontSize">Font size:</label><input type="number" name="followFontSize" value="46">
+                  <label for="follow-font-size">Font size:</label><input type="number" name="follow-font-size" value="46" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="followBubbleTime">Bubble time:</label><input type="number" name="followBubbleTime" value="1">
+                  <label for="follow-bubble-time">Bubble time:</label><input type="number" name="follow-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="followTextTime">Text time:</label><input type="number" name="followTextTime" value="0.8">
+                  <label for="follow-text-time">Text time:</label><input type="number" name="follow-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="followTimeActive">Active time:</label><input type="number" name="followTimeActive" value="6">
+                  <label for="follow-time-active">Active time:</label><input type="number" name="follow-time-active" value="4" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="followBubbleName">Name of the bubble:</label><input type="text" name="followBubbleName" value="normalBubble">
+                  <label for="follow-bubble-name">Name of the bubble:</label><input type="text" name="follow-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="followTypoName">Typography:</label><input type="text" name="followTypoName" value="DiamondRegular">
+                  <label for="follow-typo-name">Typography:</label><input type="text" name="follow-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="followTypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="follow-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="followVideo">Video name:</label><input type="text" name="followVideo" value="Follow">
+                  <label for="follow-video">Video name:</label><input type="text" name="follow-video" value="Follow" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="followVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="follow-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -102,42 +125,42 @@
             <h2>Subscribe</h2>
             <p class="descriptions">Text displayed when someone subscribe to your channel.</p>
             <form class="alerts-form" id="subscribe-form" data-type="subscribe">
-              <input class="selectPreview" type="radio" name="selectPreview" value="subscribe">
+              <input class="select-preview" type="radio" name="select-preview" value="subscribe" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
-                  <label for="subscribeText">Subscribe text:</label><input type="text" name="subscribeText" placeholder="Type your message here" value="${name} subscribe for the first time ! Thanks you !">
+                  <label for="subscribe-text">Subscribe text:</label><input type="text" name="subscribe-text" placeholder="Type your message here" value="${name} is subscribing for the first time ! Thanks you !" />
                 </div>
                 <div class="options">
-                  <label for="subscribeFontSize">Font size:</label><input type="number" name="subscribeFontSize" value="45">
+                  <label for="subscribe-font-size">Font size:</label><input type="number" name="subscribe-font-size" value="42" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="subscribeBubbleTime">Bubble time:</label><input type="number" name="subscribeBubbleTime" value="1">
+                  <label for="subscribe-bubble-time">Bubble time:</label><input type="number" name="subscribe-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="subscribeTextTime">Text time:</label><input type="number" name="subscribeTextTime" value="0.8">
+                  <label for="subscribe-text-time">Text time:</label><input type="number" name="subscribe-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="subscribeTimeActive">Active time:</label><input type="number" name="subscribeTimeActive" value="5">
+                  <label for="subscribe-time-active">Active time:</label><input type="number" name="subscribe-time-active" value="4" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="subscribeBubbleName">Bubble name:</label><input type="text" name="subscribeBubbleName" value="normalBubble">
+                  <label for="subscribe-bubble-name">Bubble name:</label><input type="text" name="subscribe-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="subscribeTypoName">Typography:</label><input type="text" name="subscribeTypoName" value="DiamondRegular">
+                  <label for="subscribe-typo-name">Typography:</label><input type="text" name="subscribe-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="subscribeTypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="subscribe-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="subscribeVideo">Video name:</label><input type="text" name="subscribeVideo" value="Sub">
+                  <label for="subscribe-video">Video name:</label><input type="text" name="subscribe-video" value="Sub" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="subscribeVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="subscribe-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -146,133 +169,88 @@
             <h2>Resub</h2>
             <p class="descriptions">Text displayed when someone resubscribe to your channel.</p>
             <form class="alerts-form" id="resubscribe-form" data-type="resubscribe">
-              <input class="selectPreview" type="radio" name="selectPreview" value="resubscribe">
+              <input class="select-preview" type="radio" name="select-preview" value="resubscribe" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of months.</p>
-                  <label for="resubscribeText">Resub text:</label><input type="text" name="resubscribeText" placeholder="Type your message here" value="${name} resub for their ${amount} months ! Thanks you !">
+                  <label for="resubscribe-text">Resub text:</label><input type="text" name="resubscribe-text" placeholder="Type your message here" value="${name} is subscribing for their ${amount} months ! Thanks you !" />
                 </div>
                 <div class="options">
-                  <label for="resubscribeFontSize">Font size:</label><input type="number" name="resubscribeFontSize" value="45">
+                  <label for="resubscribe-font-size">Font size:</label><input type="number" name="resubscribe-font-size" value="43" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="resubscribeBubbleTime">Bubble time:</label><input type="number" name="resubscribeBubbleTime" value="1">
+                  <label for="resubscribe-bubble-time">Bubble time:</label><input type="number" name="resubscribe-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="resubscribeTextTime">Text time:</label><input type="number" name="resubscribeTextTime" value="0.8">
+                  <label for="resubscribe-text-time">Text time:</label><input type="number" name="resubscribe-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="resubscribeTimeActive">Active time:</label><input type="number" name="resubscribeTimeActive" value="5">
+                  <label for="resubscribe-time-active">Active time:</label><input type="number" name="resubscribe-time-active" value="4" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="resubscribeBubbleName">Bubble name:</label><input type="text" name="resubscribeBubbleName" value="normalBubble">
+                  <label for="resubscribe-bubble-name">Bubble name:</label><input type="text" name="resubscribe-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="resubscribeTypoName">Typography:</label><input type="text" name="resubscribeTypoName" value="DiamondRegular">
+                  <label for="resubscribe-typo-name">Typography:</label><input type="text" name="resubscribe-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="resubscribeTypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="resubscribe-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="resubscribeVideo">Video name:</label><input type="text" name="resubscribeVideo" value="Resub">
+                  <label for="resubscribe-video">Video name:</label><input type="text" name="resubscribe-video" value="Resub" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="resubscribeVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="resubscribe-video-extension" value="webm" />
                 </div>
               </div>
             </form>
           </div>
-          <!-- <div>
-            <h2>Subgift</h2>
-            <p class="descriptions">Text displayed when someone gift a sub to your channel.</p>
-            <form class="alerts-form" id="subgift-form" data-type="subgift">
-              <input class="selectPreview" type="radio" name="selectPreview" value="subgift">
-              <div class="option-container">
-                <div class="options">
-                  <p class="informations var">"${name}" is the username.</p>
-                  <p class="informations var">unfortunately we can't get the username of the person gifted.</p>
-                  <label for="subgiftText">Subgift text:</label><input type="text" name="subgiftText" placeholder="Type your message here" value="Ooooh I see two lovebird...">
-                </div>
-                <div class="options">
-                  <label for="subgiftFontSize">Font size:</label><input type="number" name="subgiftFontSize" value="50">
-                  <p class="informations inline-text">pixels</p>
-                </div>
-                <div class="options">
-                  <label for="subgiftBubbleTime">Bubble time:</label><input type="number" name="subgiftBubbleTime" value="1">
-                  <p class="informations inline-text">seconds</p>
-                </div>
-                <div class="options">
-                  <label for="subgiftTextTime">Text time:</label><input type="number" name="subgiftTextTime" value="0.8">
-                  <p class="informations inline-text">seconds</p>
-                </div>
-                <div class="options">
-                  <label for="subgiftTimeActive">Active time:</label><input type="number" name="subgiftTimeActive" value="6">
-                  <p class="informations inline-text">seconds</p>
-                </div>
-                <div class="separator"></div>
-                <div class="options">
-                  <label for="subgiftBubbleName">Bubble name:</label><input type="text" name="subgiftBubbleName" value="thinkBubble">
-                  <p class="informations inline-text">.png</p>
-                </div>
-                <div class="options">
-                  <label for="subgiftTypoName">Typography:</label><input type="text" name="subgiftTypoName" value="DiamondRegular">
-                  <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="subgiftTypoExtension" value="ttf">
-                </div>
-                <div class="options">
-                  <label for="subgiftVideo">Video name:</label><input type="text" name="subgiftVideo" value="Subgift">
-                  <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="subgiftVideoExtension" value="webm">
-                </div>
-              </div>
-            </form>
-          </div> -->
           <div>
             <h2>Raid</h2>
             <p class="descriptions">Text displayed when someone raid your channel.</p>
             <form class="alerts-form" id="raid-form" data-type="raid">
-              <input class="selectPreview" type="radio" name="selectPreview" value="raid">
+              <input class="select-preview" type="radio" name="select-preview" value="raid" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of viewers.</p>
-                  <label for="raidText">Raid text:</label><input type="text" name="raidText" placeholder="Type your message here" value="${name} and their ${amount} viewers want me to pay the rent !">
+                  <label for="raid-text">Raid text:</label><input type="text" name="raid-text" placeholder="Type your message here" value="${name} and their ${amount} viewers want me to pay the rent !" />
                 </div>
                 <div class="options">
-                  <label for="raidFontSize">Font size:</label><input type="number" name="raidFontSize" value="30">
+                  <label for="raid-font-size">Font size:</label><input type="number" name="raid-font-size" value="30" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="raidBubbleTime">Bubble time:</label><input type="number" name="raidBubbleTime" value="1">
+                  <label for="raid-bubble-time">Bubble time:</label><input type="number" name="raid-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="raidTextTime">Text time:</label><input type="number" name="raidTextTime" value="0.8">
+                  <label for="raid-text-time">Text time:</label><input type="number" name="raid-text-time" value="0.5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="raidTimeActive">Active time:</label><input type="number" name="raidTimeActive" value="5">
+                  <label for="raid-time-active">Active time:</label><input type="number" name="raid-time-active" value="3.5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="raidBubbleName">Bubble name:</label><input type="text" name="raidBubbleName" value="yellBubble">
+                  <label for="raid-bubble-name">Bubble name:</label><input type="text" name="raid-bubble-name" value="yellBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="raidTypoName">Typography:</label><input type="text" name="raidTypoName" value="bacoter">
+                  <label for="raid-typo-name">Typography:</label><input type="text" name="raid-typo-name" value="bacoter" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="raidTypoExtension" value="otf">
+                  <input class="extensions" type="text" name="raid-typo-extension" value="otf" />
                 </div>
                 <div class="options">
-                  <label for="raidVideo">Video name:</label><input type="text" name="raidVideo" value="Raid">
+                  <label for="raid-video">Video name:</label><input type="text" name="raid-video" value="Raid" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="raidVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="raid-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -281,43 +259,43 @@
             <h2>Host</h2>
             <p class="descriptions">Text displayed when someone host to your channel.</p>
             <form class="alerts-form" id="host-form" data-type="host">
-              <input class="selectPreview" type="radio" name="selectPreview" value="host">
+              <input class="select-preview" type="radio" name="select-preview" value="host" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of viewers gained.</p>
-                  <label for="hostText">Host text:</label><input type="text" name="hostText" placeholder="Type your message here" value="${name} is hosting with their ${amount} viewers ! Nice!">
+                  <label for="host-text">Host text:</label><input type="text" name="host-text" placeholder="Type your message here" value="${name} is hosting with their ${amount} viewers ! Nice!" />
                 </div>
                 <div class="options">
-                  <label for="hostFontSize">Font size:</label><input type="number" name="hostFontSize" value="30">
+                  <label for="host-font-size">Font size:</label><input type="number" name="host-font-size" value="30" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="hostBubbleTime">Bubble time:</label><input type="number" name="hostBubbleTime" value="1">
+                  <label for="host-bubble-time">Bubble time:</label><input type="number" name="host-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="hostTextTime">Text time:</label><input type="number" name="hostTextTime" value="0.8">
+                  <label for="host-text-time">Text time:</label><input type="number" name="host-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="hostTimeActive">Active time:</label><input type="number" name="hostTimeActive" value="5">
+                  <label for="host-time-active">Active time:</label><input type="number" name="host-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="hostBubbleName">Bubble name:</label><input type="text" name="hostBubbleName" value="yellBubble">
+                  <label for="host-bubble-name">Bubble name:</label><input type="text" name="host-bubble-name" value="yellBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="hostTypoName">Typography:</label><input type="text" name="hostTypoName" value="bacoter">
+                  <label for="host-typo-name">Typography:</label><input type="text" name="host-typo-name" value="bacoter" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="hostTypoExtension" value="otf">
+                  <input class="extensions" type="text" name="host-typo-extension" value="otf" />
                 </div>
                 <div class="options">
-                  <label for="hostVideo">Video name:</label><input type="text" name="hostVideo" value="Host">
+                  <label for="host-video">Video name:</label><input type="text" name="host-video" value="Host" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="hostVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="host-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -326,43 +304,43 @@
             <h2>Bits 1-99</h2>
             <p class="descriptions">Text displayed when someone send you 1 to 99 bits.</p>
             <form class="alerts-form" id="bits1-form" data-type="bits1">
-              <input class="selectPreview" type="radio" name="selectPreview" value="bits1">
+              <input class="select-preview" type="radio" name="select-preview" value="bits1" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
-                  <label for="bits1Text">Bits 1-99 text:</label><input type="text" name="bits1Text" placeholder="Type your message here" value="${name} give ${amount} bits ! Thanks.">
+                  <label for="bits1-text">Bits 1-99 text:</label><input type="text" name="bits1-text" placeholder="Type your message here" value="${name} gave ${amount} bits ! Thanks." />
                 </div>
                 <div class="options">
-                  <label for="bits1FontSize">Font size:</label><input type="number" name="bits1FontSize" value="45">
+                  <label for="bits1-font-size">Font size:</label><input type="number" name="bits1-font-size" value="45" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="bits1BubbleTime">Bubble time:</label><input type="number" name="bits1BubbleTime" value="1">
+                  <label for="bits1-bubble-time">Bubble time:</label><input type="number" name="bits1-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits1TextTime">Text time:</label><input type="number" name="bits1TextTime" value="0.8">
+                  <label for="bits1-text-time">Text time:</label><input type="number" name="bits1-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits1TimeActive">Active time:</label><input type="number" name="bits1TimeActive" value="6">
+                  <label for="bits1-time-active">Active time:</label><input type="number" name="bits1-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="bits1BubbleName">Name of the bubble:</label><input type="text" name="bits1BubbleName" value="normalBubble">
+                  <label for="bits1-bubble-name">Name of the bubble:</label><input type="text" name="bits1-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="bits1TypoName">Typography:</label><input type="text" name="bits1TypoName" value="DiamondRegular">
+                  <label for="bits1-typo-name">Typography:</label><input type="text" name="bits1-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits1TypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="bits1-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="bits1Video">Video name:</label><input type="text" name="bits1Video" value="Bits1">
+                  <label for="bits1-video">Video name:</label><input type="text" name="bits1-video" value="Bits1" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits1VideoExtension" value="webm">
+                  <input class="extensions" type="text" name="bits1-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -371,43 +349,43 @@
             <h2>Bits 100-999</h2>
             <p class="descriptions">Text displayed when someone send you 100 to 999 bits.</p>
             <form class="alerts-form" id="bits100-form" data-type="bits100">
-              <input class="selectPreview" type="radio" name="selectPreview" value="bits100">
+              <input class="select-preview" type="radio" name="select-preview" value="bits100" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
-                  <label for="bits100Text">Bits 100-999 text:</label><input type="text" name="bits100Text" placeholder="Type your message here" value="${name} give ${amount} bits ! Thanks you !">
+                  <label for="bits100-text">Bits 100-999 text:</label><input type="text" name="bits100-text" placeholder="Type your message here" value="${name} gave ${amount} bits ! Thanks you !" />
                 </div>
                 <div class="options">
-                  <label for="bits100FontSize">Font size:</label><input type="number" name="bits100FontSize" value="45">
+                  <label for="bits100-font-size">Font size:</label><input type="number" name="bits100-font-size" value="45" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="bits100BubbleTime">Bubble time:</label><input type="number" name="bits100BubbleTime" value="1">
+                  <label for="bits100-bubble-time">Bubble time:</label><input type="number" name="bits100-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits100TextTime">Text time:</label><input type="number" name="bits100TextTime" value="0.8">
+                  <label for="bits100-text-time">Text time:</label><input type="number" name="bits100-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits100TimeActive">Active time:</label><input type="number" name="bits100TimeActive" value="6">
+                  <label for="bits100-time-active">Active time:</label><input type="number" name="bits100-time-active" value="4" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="bits100BubbleName">Name of the bubble:</label><input type="text" name="bits100BubbleName" value="normalBubble">
+                  <label for="bits100-bubble-name">Name of the bubble:</label><input type="text" name="bits100-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="bits100TypoName">Typography:</label><input type="text" name="bits100TypoName" value="DiamondRegular">
+                  <label for="bits100-typo-name">Typography:</label><input type="text" name="bits100-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits100TypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="bits100-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="bits100Video">Video name:</label><input type="text" name="bits100Video" value="Bits100">
+                  <label for="bits100-video">Video name:</label><input type="text" name="bits100-video" value="Bits100" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits100VideoExtension" value="webm">
+                  <input class="extensions" type="text" name="bits100-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -416,43 +394,43 @@
             <h2>Bits 1k-4k999</h2>
             <p class="descriptions">Text displayed when someone send you 1000 to 4999 bits.</p>
             <form class="alerts-form" id="bits1000-form" data-type="bits1000">
-              <input class="selectPreview" type="radio" name="selectPreview" value="bits1000">
+              <input class="select-preview" type="radio" name="select-preview" value="bits1000" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
-                  <label for="bits1000Text">Bits 1k-4k999 text:</label><input type="text" name="bits1000Text" placeholder="Type your message here" value="${name} give ${amount} bits ! That's alot !">
+                  <label for="bits1000-text">Bits 1k-4k999 text:</label><input type="text" name="bits1000-text" placeholder="Type your message here" value="${name} gave ${amount} bits ! That's alot !" />
                 </div>
                 <div class="options">
-                  <label for="bits1000FontSize">Font size:</label><input type="number" name="bits1000FontSize" value="45">
+                  <label for="bits1000-font-size">Font size:</label><input type="number" name="bits1000-font-size" value="45" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="bits1000BubbleTime">Bubble time:</label><input type="number" name="bits1000BubbleTime" value="1">
+                  <label for="bits1000-bubble-time">Bubble time:</label><input type="number" name="bits1000-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits1000TextTime">Text time:</label><input type="number" name="bits1000TextTime" value="0.8">
+                  <label for="bits1000-text-time">Text time:</label><input type="number" name="bits1000-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits1000TimeActive">Active time:</label><input type="number" name="bits1000TimeActive" value="6">
+                  <label for="bits1000-time-active">Active time:</label><input type="number" name="bits1000-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="bits1000BubbleName">Name of the bubble:</label><input type="text" name="bits1000BubbleName" value="normalBubble">
+                  <label for="bits1000-bubble-name">Name of the bubble:</label><input type="text" name="bits1000-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="bits1000TypoName">Typography:</label><input type="text" name="bits1000TypoName" value="DiamondRegular">
+                  <label for="bits1000-typo-name">Typography:</label><input type="text" name="bits1000-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits1000TypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="bits1000-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="bits1000Video">Video name:</label><input type="text" name="bits1000Video" value="Bits1000">
+                  <label for="bits1000-video">Video name:</label><input type="text" name="bits1000-video" value="Bits1000" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits1000VideoExtension" value="webm">
+                  <input class="extensions" type="text" name="bits1000-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -461,43 +439,43 @@
             <h2>Bits 5k-9k999</h2>
             <p class="descriptions">Text displayed when someone send you 5000 to 9999 bits.</p>
             <form class="alerts-form" id="bits5000-form" data-type="bits5000">
-              <input class="selectPreview" type="radio" name="selectPreview" value="bits5000">
+              <input class="select-preview" type="radio" name="select-preview" value="bits5000" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
-                  <label for="bits5000Text">Bits 5k-9k999 text:</label><input type="text" name="bits5000Text" placeholder="Type your message here" value="WOW ! ${name} give ${amount} bits ! Thanks you so much !">
+                  <label for="bits5000-text">Bits 5k-9k999 text:</label><input type="text" name="bits5000-text" placeholder="Type your message here" value="WOW ! ${name} gave ${amount} bits ! Thanks you so much !" />
                 </div>
                 <div class="options">
-                  <label for="bits5000FontSize">Font size:</label><input type="number" name="bits5000FontSize" value="30">
+                  <label for="bits5000-font-size">Font size:</label><input type="number" name="bits5000-font-size" value="30" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="bits5000BubbleTime">Bubble time:</label><input type="number" name="bits5000BubbleTime" value="1">
+                  <label for="bits5000-bubble-time">Bubble time:</label><input type="number" name="bits5000-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits5000TextTime">Text time:</label><input type="number" name="bits5000TextTime" value="0.8">
+                  <label for="bits5000-text-time">Text time:</label><input type="number" name="bits5000-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits5000TimeActive">Active time:</label><input type="number" name="bits5000TimeActive" value="6">
+                  <label for="bits5000-time-active">Active time:</label><input type="number" name="bits5000-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="bits5000BubbleName">Name of the bubble:</label><input type="text" name="bits5000BubbleName" value="yellBubble">
+                  <label for="bits5000-bubble-name">Name of the bubble:</label><input type="text" name="bits5000-bubble-name" value="yellBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="bits5000TypoName">Typography:</label><input type="text" name="bits5000TypoName" value="bacoter">
+                  <label for="bits5000-typo-name">Typography:</label><input type="text" name="bits5000-typo-name" value="bacoter" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits5000TypoExtension" value="otf">
+                  <input class="extensions" type="text" name="bits5000-typo-extension" value="otf" />
                 </div>
                 <div class="options">
-                  <label for="bits5000Video">Video name:</label><input type="text" name="bits5000Video" value="Bits5000">
+                  <label for="bits5000-video">Video name:</label><input type="text" name="bits5000-video" value="Bits5000" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits5000VideoExtension" value="webm">
+                  <input class="extensions" type="text" name="bits5000-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -506,43 +484,43 @@
             <h2>Bits 10k</h2>
             <p class="descriptions">Text displayed when someone send you 10k bits and more.</p>
             <form class="alerts-form" id="bits10000-form" data-type="bits10000">
-              <input class="selectPreview" type="radio" name="selectPreview" value="bits10000">
+              <input class="select-preview" type="radio" name="select-preview" value="bits10000" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
-                  <label for="bits10000Text">Bits 10k text:</label><input type="text" name="bits10000Text" placeholder="Type your message here" value="WHAT !? ${name} give ${amount} bits ! Thanks you so much !">
+                  <label for="bits10000-text">Bits 10k text:</label><input type="text" name="bits10000-text" placeholder="Type your message here" value="WHAT !? ${name} gave ${amount} bits ! Thanks you so much !" />
                 </div>
                 <div class="options">
-                  <label for="bits10000FontSize">Font size:</label><input type="number" name="bits10000FontSize" value="30">
+                  <label for="bits10000-font-size">Font size:</label><input type="number" name="bits10000-font-size" value="30" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="bits10000BubbleTime">Bubble time:</label><input type="number" name="bits10000BubbleTime" value="1">
+                  <label for="bits10000-bubble-time">Bubble time:</label><input type="number" name="bits10000-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits10000TextTime">Text time:</label><input type="number" name="bits10000TextTime" value="0.8">
+                  <label for="bits10000-text-time">Text time:</label><input type="number" name="bits10000-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="bits10000TimeActive">Active time:</label><input type="number" name="bits10000TimeActive" value="6">
+                  <label for="bits10000-time-active">Active time:</label><input type="number" name="bits10000-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="bits10000BubbleName">Name of the bubble:</label><input type="text" name="bits10000BubbleName" value="yellBubble">
+                  <label for="bits10000-bubble-name">Name of the bubble:</label><input type="text" name="bits10000-bubble-name" value="yellBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="bits10000TypoName">Typography:</label><input type="text" name="bits10000TypoName" value="bacoter">
+                  <label for="bits10000-typo-name">Typography:</label><input type="text" name="bits10000-typo-name" value="bacoter" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits10000TypoExtension" value="otf">
+                  <input class="extensions" type="text" name="bits10000-typo-extension" value="otf" />
                 </div>
                 <div class="options">
-                  <label for="bits10000Video">Video name:</label><input type="text" name="bits10000Video" value="Bits10000">
+                  <label for="bits10000-video">Video name:</label><input type="text" name="bits10000-video" value="Bits10000" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="bits10000VideoExtension" value="webm">
+                  <input class="extensions" type="text" name="bits10000-video-extension" value="webm" />
                 </div>
               </div>
             </form>
@@ -551,114 +529,182 @@
             <h2>Donation</h2>
             <p class="descriptions">Text displayed when someone donate in streamlabs.</p>
             <form class="alerts-form" id="donation-form" data-type="donation">
-              <input class="selectPreview" type="radio" name="selectPreview" value="donation">
+              <input class="select-preview" type="radio" name="select-preview" value="donation" />
               <div class="option-container">
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of money sent.</p>
                   <p class="informations var">"${currency}" your currency.</p>
-                  <label for="donationText">Donation text:</label><input type="text" name="donationText" placeholder="Type your message here" value="${name} donate ${amount} ${currency} ! Thanks you so much !">
+                  <label for="donation-text">Donation text:</label><input type="text" name="donation-text" placeholder="Type your message here" value="${name} has donated ${amount} ${currency} ! Thanks you so much !" />
                 </div>
                 <div class="options">
-                  <label for="donationFontSize">Font size:</label><input type="number" name="donationFontSize" value="45">
+                  <label for="donation-font-size">Font size:</label><input type="number" name="donation-font-size" value="45" />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
-                  <label for="donationBubbleTime">Bubble time:</label><input type="number" name="donationBubbleTime" value="1">
+                  <label for="donation-bubble-time">Bubble time:</label><input type="number" name="donation-bubble-time" value="1" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="donationTextTime">Text time:</label><input type="number" name="donationTextTime" value="0.8">
+                  <label for="donation-text-time">Text time:</label><input type="number" name="donation-text-time" value="0.8" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="options">
-                  <label for="donationTimeActive">Active time:</label><input type="number" name="donationTimeActive" value="5">
+                  <label for="donation-time-active">Active time:</label><input type="number" name="donation-time-active" value="5" />
                   <p class="informations inline-text">seconds</p>
                 </div>
                 <div class="separator"></div>
                 <div class="options">
-                  <label for="donationBubbleName">Name of the bubble:</label><input type="text" name="donationBubbleName" value="normalBubble">
+                  <label for="donation-bubble-name">Name of the bubble:</label><input type="text" name="donation-bubble-name" value="normalBubble" />
                   <p class="informations inline-text">.png</p>
                 </div>
                 <div class="options">
-                  <label for="donationTypoName">Typography:</label><input type="text" name="donationTypoName" value="DiamondRegular">
+                  <label for="donation-typo-name">Typography:</label><input type="text" name="donation-typo-name" value="DiamondRegular" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="donationTypoExtension" value="ttf">
+                  <input class="extensions" type="text" name="donation-typo-extension" value="ttf" />
                 </div>
                 <div class="options">
-                  <label for="donationVideo">Video name:</label><input type="text" name="donationVideo" value="Donation">
+                  <label for="donation-video">Video name:</label><input type="text" name="donation-video" value="Donation" />
                   <p class="informations inline-text">.</p>
-                  <input class="extensions" type="text" name="donationVideoExtension" value="webm">
+                  <input class="extensions" type="text" name="donation-video-extension" value="webm" />
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </div>
-    <div id="preview-tutorial">
-      <div id="tutorial">
-        <h1>Tutorial</h1>
-        <div>
-          <h2>General</h2>
-          <ol>
-            <li>Find your streamlabs socket API token in your streamlabs dashboard
-              <ul>
-                <li>Connect to streamlabs with Twitch account: <a href='https://streamlabs.com/dashboard'>Streamlabs website</a></li>
-                <li>Then go to Settings -> API settings -> API tokens -> "Your socket API token"</li>
-                <li>Copy the entire token (button "copy" on the right) <a href="https://imgur.com/aaD2zrv" target="_blank">Screenshot</a></li>
-              </ul>
-            </li>
-            <li>Paste it into "Streamlabs token" field in general configuration and then, configure your Jahy whatever you want to</li>
-            <li>Click on "Generate configuration" button and copy-paste all the text in config.js</li>
-            <li>In your OBS, add a new source and select "browser source" <a href="https://imgur.com/GeQS8IC" target="_blank">Screenshot</a></li>
-            <li>Put thoses settings :</li>
-            <ul>
-              <li><span class='bold'>Local file :</span> true</li>
-              <li><span class='bold'>Local file :</span> select the file "index.html" <a href="https://imgur.com/MoKxVGC" target="_blank">Screenshot</a></li>
-              <li><span class='bold'>Width :</span> <span id='finalWidth'>1245</span></li>
-              <li><span class='bold'>Height :</span> <span id='finalHeight'>760</span></li>
-              <li><span class='bold'>Custom CSS :</span> leave it blank</li>
-              <li><span class='bold'>Shutdown source when not visible :</span> true</li>
-              <li><span class='bold'>Refresh browser when scene becomes active :</span> true</li>
-            </ul>
-            <li>Resize and place whatever you want the Jahy in your scene <a href="https://imgur.com/OIcPdR4" target="_blank">Screenshot</a></li>
-            <li>Enjoy !</li>
-          </ol>
-        </div>
-        <div>
-          <h2>Advanced</h2>
-          <ul>
-            <li><span class='bold'>Base video:</span> the video name of the base stand.</li>
-            <li><span class='bold'>Video loop interval:</span> Interval of time your base video loop.</li>
-            <li><span class='bold'>Text:</span> text displayed when the alert is triggered</li>
-            <li><span class='bold'>Font size :</span> Size of the text. If your text exceed the bubble, ajust the size</li>
-            <li><span class='bold'>Bubble time :</span> How fast the bubble will appear ("fade in" effect) <span class='note'>*</span></li>
-            <li><span class='bold'>Text time :</span> How fast the text will appear after the bubble appear <span class='note'>*</span></li>
-            <li><span class='bold'>Active time :</span> How long the text will stay displayed before fading out <span class='note'>*</span></li>
-            <li><span class='bold'>Name of the bubble :</span> bubble image used for the alert <span class='note2'>*</span></li>
-            <li><span class='bold'>Typography :</span> Typography used for the alert <span class='note3'>*</span></li>
-          </ul>
-          <p class="notes"><span class='note'>*</span> Bubble time + text time + active time + 	disappearance time (0.75 second) sould strictly always be smaller than the video animation time. Or else it will have a bug.</p>
-          <p class="notes"><span class='note2'>*</span> Place your custom bubble image in "speechBubbles" folder. The size is 600x300 (W x H).</p>
-          <p class="notes"><span class='note3'>*</span> Place your custom typography in "typo" folder.</p>
+      <div class="tabs" id='subgift-and-bomb' hidden>
+        <h1>Sub-gift and sub-bomb</h1>
+        <div id="subgift-bomb-config">
+          <div>
+            <h2>Sub-gift</h2>
+            <p class="descriptions">Text displayed when someone gift a sub.</p>
+            <p class="descriptions post-scriptum">PS: you need to setup a special alert in streamlabs.</p>
+            <form class="alerts-form" id="subgift-form" data-type="subgift">
+              <input class="select-preview" type="radio" name="select-preview" value="subgift" disabled />
+              <div class="option-container">
+                <div class="options">
+                  <label for="activate-alert-subgift">Activate alert:</label>
+                  <input class="activate-alert" type="checkbox" name="activate-alert-subgift" value="subgift" />
+                  <input type="number" name="subgift-variation" value="0" disabled />
+                </div>
+                <div class="options" id="option-subgift-text">
+                  <p class="informations var">"${name}" is the username.</p>
+                  <p class="informations var">Unfortunately we can't get the username of the gifted.</p>
+                  <label for="subgift-text">Sub-gift text:</label><input type="text" name="subgift-text" placeholder="Type your message here" value="Oooh I see two lovebird..." disabled />
+                </div>
+                <div class="options">
+                  <label for="subgift-font-size">Font size:</label><input type="number" name="subgift-font-size" value="55" disabled />
+                  <p class="informations inline-text">pixels</p>
+                </div>
+                <div class="options">
+                  <label for="subgift-bubble-time">Bubble time:</label><input type="number" name="subgift-bubble-time" value="1" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="subgift-text-time">Text time:</label><input type="number" name="subgift-text-time" value="0.8" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="subgift-time-active">Active time:</label><input type="number" name="subgift-time-active" value="4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="separator"></div>
+                <div class="options">
+                  <label for="subgift-bubble-name">Name of the bubble:</label><input type="text" name="subgift-bubble-name" value="normalBubble" disabled />
+                  <p class="informations inline-text">.png</p>
+                </div>
+                <div class="options">
+                  <label for="subgift-typo-name">Typography:</label><input type="text" name="subgift-typo-name" value="DiamondRegular" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="subgift-typo-extension" value="ttf" disabled />
+                </div>
+                <div class="options">
+                  <label for="subgift-video">Video name:</label><input type="text" name="subgift-video" value="Sub" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="subgift-video-extension" value="webm" disabled />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div>
+            <h2>Sub-bomb</h2>
+            <p class="descriptions">Text displayed when someone gift multiple sub.</p>
+            <p class="descriptions post-scriptum">PS: you need to setup a special alert in streamlabs.</p>
+            <form class="alerts-form" id="bomb-form" data-type="bomb">
+              <input class="select-preview" type="radio" name="select-preview" value="bomb" disabled />
+              <div class="option-container">
+                <div class="options">
+                  <label for="activate-alert-bomb">Activate alert:</label>
+                  <input class="activate-alert" type="checkbox" name="activate-alert-bomb" value="bomb" />
+                  <input type="number" name="bomb-variation" value="1" disabled />
+                </div>
+                <div class="options" id="option-bomb-text">
+                  <p class="informations var">"${name}" is the username.</p>
+                  <p class="informations var">Unfortunately we can't get the amount of sub gifted.</p>
+                  <label for="bomb-text">Sub-bomb text:</label><input type="text" name="bomb-text" placeholder="Type your message here" value="${name} gifted a lot of subs ! Yatta !" disabled />
+                </div>
+                <div class="options">
+                  <label for="bomb-font-size">Font size:</label><input type="number" name="bomb-font-size" value="45" disabled />
+                  <p class="informations inline-text">pixels</p>
+                </div>
+                <div class="options">
+                  <label for="bomb-bubble-time">Bubble time:</label><input type="number" name="bomb-bubble-time" value="1" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="bomb-text-time">Text time:</label><input type="number" name="bomb-text-time" value="0.8" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="bomb-time-active">Active time:</label><input type="number" name="bomb-time-active" value="4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="separator"></div>
+                <div class="options">
+                  <label for="bomb-bubble-name">Name of the bubble:</label><input type="text" name="bomb-bubble-name" value="normalBubble" disabled />
+                  <p class="informations inline-text">.png</p>
+                </div>
+                <div class="options">
+                  <label for="bomb-typo-name">Typography:</label><input type="text" name="bomb-typo-name" value="DiamondRegular" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="bomb-typo-extension" value="ttf" disabled />
+                </div>
+                <div class="options">
+                  <label for="bomb-video">Video name:</label><input type="text" name="bomb-video" value="Resub" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="bomb-video-extension" value="webm" disabled />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <div id="preview">
-        <h1>Preview</h1>
-        <form id='usernameSelectContainer'><label for="usernameSelectLong">Long username</label><input type="radio" id="usernameSelectLong" name="usernameSelect" value="long" checked><label for="usernameSelectShort">Short username</label><input type="radio" id="usernameSelectShort" name="usernameSelect" value="short"></form>
-        <div id='preview-container'>
-          <div class='alignement' id='textArea'>
-            <img class="bubbles bubbles-left" id="normalBubble" src="speechBubbles/normalBubble.png" />
-            <p id="textBubble"><span>Hello,</span><span>I'm</span><span>Jahy</span><span>Sama !</span><span>Praise</span><span>me</span><span>!</span></p>
-          </div>
-          <div class='alignement' id='videos'>
-            <video class="video baseStands" id="baseStand" src="video/Basic.webm" pause></video>
-          </div>
+      <div class="tabs" id='twitch-chat' hidden>
+        <h1>Twitch chat</h1>
+        <h2>Soon tm</h2>
+      </div>
+      <div class="tabs" id='others' hidden>
+        <h1>Others</h1>
+        <h2>Soon tm</h2>
+      </div>
+    </div>
+    <div id="preview">
+      <h1>Preview</h1>
+      <form id='username-select-container'><label for="username-select-long">Long username</label><input type="radio" id="username-select-long" name="username-select" value="long" checked /><label for="username-select-short">Short username</label><input type="radio" id="username-select-short" name="username-select" value="short" /></form>
+      <div id='preview-container'>
+        <div class='alignement' id='textArea'>
+          <img class="bubbles bubbles-left" id="normalBubble" src="speechBubbles/normalBubble.png" />
+          <p id="textBubble"><span>Hello,</span><span>how</span><span>are</span><span>you?!</span><span>Praise</span><span>me</span><span>!</span></p>
+        </div>
+        <div class='alignement' id='videos'>
+          <video class="video baseStands" id="baseStand" src="video/Basic.webm" muted autoplay loop></video>
         </div>
       </div>
     </div>
-    <script type="text/javascript" src='js/functions-config.js'></script>
+    <script type="text/javascript" src='js/config-preview.js'></script>
+    <script type="text/javascript" src='js/config-alerts.js'></script>
+    <script type="text/javascript" src='js/config-generate-load.js'></script>
     <script type="text/javascript" src='js/root-config.js'></script>
   </body>
 </html>

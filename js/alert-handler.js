@@ -1,3 +1,4 @@
+'use strict';
 (function(alertHandler) {
   class Follow{
     constructor(alert){
@@ -55,8 +56,26 @@
       this.alreadyDisplayed = false;
     }
   };
+  class Subgift{
+    constructor(alert){
+      this.type = 'subgift';
+      this.name = alert.name;
+      this.alreadyDisplayed = false;
+      this.amount = alert.amount;
+    }
+  };
+  class Subbomb{
+    constructor(alert){
+      this.type = 'bomb';
+      this.name = alert.name;
+      this.alreadyDisplayed = false;
+    }
+  };
 
   const alerts = new Array();
+  const configGiftAndBomb = new Array();
+  configGiftAndBomb['gift'] = config.alerts.find(alert => alert.type === 'subgift');
+  configGiftAndBomb['bomb'] = config.alerts.find(alert => alert.type === 'bomb');
   let timeGapAdd = 0;
   let baseVideo;
 
@@ -80,14 +99,30 @@
   }
 
   alertHandler.triggerAlertVideo = function(e){
-    baseVideo.pause();
-    e.target.removeAttribute('hidden');
-    e.target.play().then(()=>{
-      baseVideo.setAttribute('hidden', '');
-    });
+    if(config.general.videoimage === 'video'){
+      baseVideo.pause();
+      e.target.removeAttribute('hidden');
+      e.target.play().then(()=>{
+        setTimeout(()=>{
+          baseVideo.setAttribute('hidden', '');
+        }, 50);
+      });
+    } else{
+      if(config.general.activateImgAnimation){
+        new TimelineMax({
+          onStart: ()=>{
+            e.target.removeAttribute('hidden');
+            baseVideo.setAttribute('hidden', '');
+          }
+        }).to(e.target, 0.3, {ease: Power1.easeOut, marginTop:'0px'}).to(e.target, 0.3, {ease: Power1.easeIn, marginTop: config.general.marginImgAnimation}).to(e.target, 0.15, {ease: Power1.easeOut, marginTop:`${Number(config.general.marginImgAnimation.slice(0,-2))/2}px`}).to(e.target, 0.15, {ease: Power1.easeIn, marginTop: config.general.marginImgAnimation});
+      } else{
+        e.target.removeAttribute('hidden');
+        baseVideo.setAttribute('hidden', '');
+      }
+    }
   };
 
-  alertHandler.triggerAlertBubble = function(e){
+  alertHandler.triggerAlertBubble = function(e, imgId){
     textBubble.style.fontSize = e.detail.config.fontSize;
     textBubble.style.fontFamily = `${e.detail.config.typographyId}, verdana`;
     textBubble.innerHTML = e.detail.config.text(e.detail.alert.name, e.detail.alert.amount, e.detail.alert.currency);
@@ -102,15 +137,18 @@
         textBubble.innerHTML = '';
         e.target.setAttribute('hidden', '');
         e.target.removeAttribute('style');
+        if(config.general.videoimage === 'image') document.getElementById(`${e.detail.config.videoId}-video`).dispatchEvent(new Event('end'));
       }
-    }).fromTo(e.target, e.detail.config.bubbleTime, {opacity:0}, {opacity:1}).staggerFrom(words, e.detail.config.textTime, {opacity:0, scale:0, y:80, rotationX:180, transformOrigin:"0% 50% -50",  ease:Back.easeOut}, (e.detail.config.textTime/words.length).toFixed(2), "+=0").to([e.target, words], 0.75, {opacity: 0}, e.detail.config.timeActive);
+    }).fromTo(e.target, e.detail.config.bubbleTime, {opacity:0}, {opacity:1}).staggerFrom(words, e.detail.config.textTime, {opacity:0, scale:0, y:80, rotationX:180, transformOrigin:"0% 50% -50",  ease:Back.easeOut}, (e.detail.config.textTime/words.length).toFixed(2), "+=0").to([e.target, words], 0.75, {opacity: 0}, `+=${e.detail.config.timeActive}`);
   };
 
   alertHandler.endAlert = function(e){
     e.target.pause();
     if(findAlert()){
-      e.target.setAttribute('hidden', '');
-      e.target.currentTime = 0;
+      setTimeout(()=>{
+        e.target.setAttribute('hidden', '');
+        e.target.currentTime = 0;
+      }, 50);
       alertHandler.alertTesting();
     } else{
       baseVideo.removeAttribute('hidden');
@@ -124,11 +162,22 @@
     }
   };
 
+  alertHandler.endAlertImage = function(e){
+    if(findAlert()){
+      e.target.setAttribute('hidden', '');
+      alertHandler.alertTesting();
+    } else{
+      baseVideo.removeAttribute('hidden');
+      e.target.setAttribute('hidden', '');
+      alertHandler.timeOutTestImage();
+    }
+  };
+
   alertHandler.timeOutTest = function(){
     setTimeout(()=>{
       baseVideo.pause();
       timeGapAdd = Math.floor(baseVideo.currentTime)%config.general.intervalTime;
-      if( timeGapAdd !== 0){
+      if(timeGapAdd !== 0){
         timeGapAdd = 0-(Math.ceil(baseVideo.currentTime)-baseVideo.currentTime);
       } else{
         timeGapAdd = baseVideo.currentTime-Math.floor(baseVideo.currentTime);
@@ -137,19 +186,29 @@
     }, config.general.intervalTime*1000-timeGapAdd*1000);
   };
 
+  alertHandler.timeOutTestImage = function(){
+    setTimeout(()=>{
+      alertHandler.alertTesting();
+    }, config.general.intervalTime);
+  };
+
   alertHandler.alertTesting = function(){
     const alert = findAlert();
     if(alert){
       alert.alreadyDisplayed = true;
       const alertConfig = findAlertConfig(alert.type);
       const eventVideo = new Event('triggerAlert');
-      const eventBubble = new CustomEvent('triggerAlert', {detail : {config: alertConfig, alert: alert}});
+      const eventBubble = new CustomEvent('triggerAlert', {detail : {config: alertConfig, alert: alert, imgId: `${alertConfig.videoId}-video`}});
       document.getElementById(`${alertConfig.videoId}-video`).dispatchEvent(eventVideo);
       if(config.general.activateSpeech) document.getElementById(`${alertConfig.bubbleId}-bubble`).dispatchEvent(eventBubble);
     } else{
-      baseVideo.play().then(this.timeOutTest).catch((err)=>{
-        showError(`${err}`);
-      });
+      if(config.general.videoimage === 'video'){
+        baseVideo.play().then(this.timeOutTest).catch((err)=>{
+          showError(`${err}`);
+        });
+      } else{
+        alertHandler.timeOutTestImage();
+      }
     }
   };
 
@@ -167,10 +226,16 @@
 
   alertHandler.setSubscription = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      if(streamlabsAlerts[i].months > 1){
-        alerts.push(new Resubscribe(streamlabsAlerts[i]));
+      if(configGiftAndBomb['gift'].activate && streamlabsAlerts[i].variation === configGiftAndBomb['gift'].variation){
+        alerts.push(new Subgift(streamlabsAlerts[i]));
+      } else if(configGiftAndBomb['bomb'].activate && streamlabsAlerts[i].variation === configGiftAndBomb['bomb'].variation){
+        alerts.push(new Subbomb(streamlabsAlerts[i]));
       } else{
-        alerts.push(new Subscribe(streamlabsAlerts[i]));
+        if(streamlabsAlerts[i].months > 1){
+          alerts.push(new Resubscribe(streamlabsAlerts[i]));
+        } else{
+          alerts.push(new Subscribe(streamlabsAlerts[i]));
+        }
       }
     }
   };

@@ -1,4 +1,8 @@
 /* GENERAL */
+input:focus, textarea:focus, select:focus, button:focus{
+  outline: none;
+}
+
 html, body{
   margin: 0;
   font-family: verdana;
@@ -32,7 +36,6 @@ h2{
   margin-bottom : 7px;
   font-weight: bold;
   font-size: 1.4em;
-
 }
 
 label{
@@ -46,7 +49,75 @@ label{
   margin-bottom: 10px;
 }
 
-/* container */
+.separator-small{
+  width: 100%;
+  height: 2px;
+  background-color: #293f90;
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+
+/* CONTAINER */
+#nav-bar{
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.nav-bars{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
+}
+
+.nav-button-1, .nav-button-2{
+  border-bottom: 2px solid #154572;
+  border-right: 2px solid #154572;
+  border-top: 2px solid #d2f3f9;
+  border-left: 2px solid #d2f3f9;
+  border-radius: 8px;
+  text-align: center;
+  font-family: verdana;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: bold;
+  color: #293f90;
+  padding: 6px;
+  margin-bottom: 8px;
+  background-color: #DAF2F1;
+}
+
+.nav-button-1:hover, .nav-button-2:hover{
+  border-bottom: 2px solid #d2f3f9;
+  border-right: 2px solid #d2f3f9;
+  border-top: 2px solid #154572;
+  border-left: 2px solid #154572;
+  background-color: rgba(200, 220, 200, 0.35);
+  cursor: pointer;
+}
+
+.nav-button-1:active, .nav-button-2:active{
+  border-bottom: 2px solid #6491FB;
+  border-right: 2px solid #6491FB;
+  border-top: 2px solid #154572;
+  border-left: 2px solid #154572;
+  background-color: #AFC5F9;
+  cursor: pointer;
+}
+
+.nav-active{
+  background-color: #AFC5F9;
+  border-bottom: 2px solid #6491FB;
+  border-right: 2px solid #6491FB;
+  border-top: 2px solid #154572;
+  border-left: 2px solid #154572;
+}
+
+#cat-2{
+  width: 60%;
+}
 
 #general{
   padding : 10px;
@@ -57,7 +128,7 @@ label{
   width: 500px;
 }
 
-#advanced{
+#advanced, #twitch-chat, #others, #subgift-and-bomb{
   padding : 10px;
   margin-left: 10px;
   margin-top: 10px;
@@ -67,25 +138,12 @@ label{
   width: 500px;
 }
 
-#tutorial{
-  padding : 10px;
-  margin-left: 10px;
-  margin-top: 10px;
-  background: rgb(144,207,221);
-  background: linear-gradient(0deg, rgba(144,207,221,1) 0%, rgba(176,224,228,1) 45%, rgba(181,232,242,1) 100%);
-  border-radius: 20px;
-  width: 800px;
-}
-
 #preview{
-  padding : 10px;
-  margin-left: 10px;
-  margin-top: 10px;
+  margin-left: 13px;
 }
 
-/* form */
-
-#formGeneral div{
+/* FORM */
+#form-general div{
   display: flex;
   align-items: flex-end;
 }
@@ -120,6 +178,15 @@ label{
   cursor: pointer;
 }
 
+.buttons:active{
+  border-bottom: 2px solid #d2f3f9;
+  border-right: 2px solid #d2f3f9;
+  border-top: 2px solid #154572;
+  border-left: 2px solid #154572;
+  background-color: #AFC5F9;
+  cursor: pointer;
+}
+
 #buttons-container{
   display: flex;
   flex-direction: row;
@@ -128,29 +195,28 @@ label{
   justify-content: space-around;
 }
 
-/* paragraph label */
-
-#formGeneral p{
+/* PARAGRAPH LABEL */
+#form-general p:not([class="informations inline-text"]){
   margin-bottom: 0;
   margin-top: 10px;
   font-weight: bold;
 }
 
-#formGeneral .labelsGeneral{
+#form-general .labels-general{
   font-weight: bold;
 }
 
-#formGeneral div label{
+#form-general div label{
   font-style: italic;
 }
 
-#formGeneral div .labelsFontNormal{
+#form-general div .labels-font-normal{
   font-style: normal;
 }
 
 .informations{
   margin-top: 0;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   font-size: 12px;
   font-style: italic;
 }
@@ -161,6 +227,10 @@ label{
   font-size: 15px;
 }
 
+#subgift-bomb-config .descriptions:nth-child(2){
+  margin-bottom: 3px;
+}
+
 .options{
   margin-bottom: 10px;
 }
@@ -169,9 +239,12 @@ label{
   display: flex;
 }
 
-/* input */
+#option-subgift-text, #option-bomb-text{
+  display: block;
+}
 
-#formGeneral input[name="streamlabsToken"]{
+/* INPUT */
+#form-general input[name="streamlabs-token"]{
   width: 320px;
   background-color: rgba(255,255,255,.4);
   border-radius: 5px;
@@ -180,7 +253,7 @@ label{
   font-style: italic;
 }
 
-#formGeneral input[name="intervalTime"]{
+#form-general input[name="interval-time"]{
   margin-top: 10px;
   width: 40px;
   background-color: rgba(255,255,255,.4);
@@ -190,7 +263,7 @@ label{
   font-style: italic;
 }
 
-#formGeneral input[name="baseVideoExtension"]{
+#form-general input[name="base-video-extension"]{
   margin-top: 10px;
   background-color: rgba(255,255,255,.4);
   border-radius: 5px;
@@ -199,17 +272,7 @@ label{
   font-style: italic;
 }
 
-#formGeneral input[name="marginTextTop"]{
-  margin-top: 10px;
-  width: 40px;
-  background-color: rgba(255,255,255,.4);
-  border-radius: 5px;
-  padding: 2px;
-  border: none;
-  font-style: italic;
-}
-
-#formGeneral input[name="centerText"]{
+#form-general input[name="margin-text-top"]{
   margin-top: 10px;
   width: 40px;
   background-color: rgba(255,255,255,.4);
@@ -219,7 +282,7 @@ label{
   font-style: italic;
 }
 
-#formGeneral input[name="gapInbetween"]{
+#form-general input[name="center-text"]{
   margin-top: 10px;
   width: 40px;
   background-color: rgba(255,255,255,.4);
@@ -229,11 +292,31 @@ label{
   font-style: italic;
 }
 
-#generalDot{
+#form-general input[name="gap-in-between"]{
+  margin-top: 10px;
+  width: 40px;
+  background-color: rgba(255,255,255,.4);
+  border-radius: 5px;
+  padding: 2px;
+  border: none;
+  font-style: italic;
+}
+
+#form-general input[name="img-animation-margin"]{
+  margin-top: 10px;
+  width: 40px;
+  background-color: rgba(255,255,255,.4);
+  border-radius: 5px;
+  padding: 2px;
+  border: none;
+  font-style: italic;
+}
+
+#general-dot{
   display: inline;
 }
 
-#formGeneral input[name="baseVideoName"]{
+#form-general input[name="base-video-name"]{
   display: inline;
   margin-top: 10px;
   background-color: rgba(255,255,255,.4);
@@ -243,7 +326,7 @@ label{
   font-style: italic;
 }
 
-#formGeneral input[name="colorText"]{
+#form-general input[name="color-text"]{
   margin-top: 10px;
   width: 70px;
   background-color: rgba(255,255,255,.4);
@@ -265,55 +348,59 @@ input:disabled{
   background-color: rgba(150,150,150,.4);
 }
 
-#formGeneral input:disabled{
+#form-general input:disabled{
   background-color: rgba(150,150,150,.4);
 }
 
-.options input[name='followText']{
+.options input[name='follow-text']{
   width: 370px;
 }
 
-.options input[name='subscribeText']{
+.options input[name='subscribe-text']{
   width: 340px;
 }
 
-.options input[name='hostText']{
+.options input[name='host-text']{
   width: 380px;
 }
 
-.options input[name='resubscribeText']{
+.options input[name='resubscribe-text']{
   width: 370px;
 }
 
-.options input[name='subgiftText']{
+.options input[name='subgift-text']{
   width: 360px;
 }
 
-.options input[name='raidText']{
-  width: 380px;
-}
-
-.options input[name='bits1Text']{
+.options input[name='bomb-text']{
   width: 340px;
 }
 
-.options input[name='bits100Text']{
+.options input[name='raid-text']{
+  width: 380px;
+}
+
+.options input[name='bits1-text']{
+  width: 340px;
+}
+
+.options input[name='bits100-text']{
   width: 310px;
 }
 
-.options input[name='bits1000Text']{
+.options input[name='bits1000-text']{
   width: 300px;
 }
 
-.options input[name='bits5000Text']{
+.options input[name='bits5000-text']{
   width: 300px;
 }
 
-.options input[name='bits10000Text']{
+.options input[name='bits10000-text']{
   width: 350px;
 }
 
-.options input[name='donationText']{
+.options input[name='donation-text']{
   width: 340px;
 }
 
@@ -322,7 +409,7 @@ input:disabled{
 }
 
 
-input[name="selectPreview"]{
+input[name="select-preview"]{
   align-self: center;
   margin-right: 5px;
 }
@@ -335,51 +422,15 @@ input[name="selectPreview"]{
   width: 60px;
 }
 
-/* TUTORIAL */
-
+/* TEXT/LINK */
 .bold{
     font-weight: bold;
 }
 
-#tutorial a{
+a{
   font-style: normal;
   font-weight: normal;
   text-decoration: none;
-}
-
-.note{
-  color: #ED1512;
-  font-weight: bold;
-}
-
-.note2{
-  color: #e79718;
-  font-weight: bold;
-}
-
-.note3{
-  color : #B7488E;
-  font-weight: bold;
-}
-
-.notes{
-  font-size: 12px;
-  font-style: italic;
-}
-
-#tutorial p:first-child{
-  color: #ED1512;
-}
-
-#tutorial ul, #tutorial ol{
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 15px;
-}
-
-#tutorial p{
-  margin-top: 2px;
-  margin-bottom: 2px;
 }
 
 /* PREVIEW */
@@ -390,20 +441,20 @@ input[name="selectPreview"]{
   align-items: flex-start;
   padding: 0;
   margin : 0;
-  width: 1260px;
+  width: 1245px;
   height: 760px;
   overflow: hidden;
 }
 
-#usernameSelectContainer{
+#username-select-container{
   margin-bottom: 10px;
 }
 
-#usernameSelectContainer label{
+#username-select-container label{
   font-weight: bold;
 }
 
-#usernameSelectContainer input{
+#username-select-container input{
   margin-right: 5px;
 }
 
@@ -413,12 +464,15 @@ input[name="selectPreview"]{
 }
 
 #textArea{
+  height: 100%;
   width: 600px;
 }
 
 #videos{
   width: 660px;
+  height: 100%;
   margin-left: -15px;
+  overflow: hidden;
 }
 
 #textArea img, #textArea p{
@@ -435,8 +489,8 @@ input[name="selectPreview"]{
   font-family: verdana;
   margin-top: 40px;
   width: 460px;
-  padding-left: 65px;
-  padding-right: 65px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 #textBubble span{
@@ -453,8 +507,7 @@ input[name="selectPreview"]{
 }
 
 /* ERROR */
-
-.options input.error-input, #formGeneral input.error-input{
+.options input.error-input, #form-general input.error-input{
   border: 2px solid red;
 }
 
