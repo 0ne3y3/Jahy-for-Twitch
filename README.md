@@ -9,7 +9,7 @@ Nearly every alerts are handled :
 - Raid
 - Host
 - Donation
-- Subgift (beta)
+- Subgift
 - Subbomb (beta)
 - All bits stages :
   * 1 bit

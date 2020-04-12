@@ -28,6 +28,7 @@
       this.type = 'donation';
       this.name = alert.from;
       this.currency = alert.currency;
+      alert.amount = alert.amount.toFixed(2);
       this.amount = Number(alert.amount);
       this.alreadyDisplayed = false;
     }
@@ -60,14 +61,22 @@
     constructor(alert){
       this.type = 'subgift';
       this.name = alert.name;
+      this.gifter = alert.gifter;
       this.alreadyDisplayed = false;
-      this.amount = alert.amount;
     }
   };
   class Subbomb{
     constructor(alert){
       this.type = 'bomb';
       this.name = alert.name;
+      this.gifter = alert.gifter;
+      this.amount = alert.amount;
+      this.alreadyDisplayed = false;
+    }
+  };
+  class BlankFill{
+    constructor(id){
+      this.type = `blank-filler-${id}`;
       this.alreadyDisplayed = false;
     }
   };
@@ -85,7 +94,7 @@
 
   const findAlertConfig = function(type){
     return config.alerts.find(alert => alert.type === type);
-  }
+  };
 
   const splitText = function(div){
     let words = div.innerHTML.split(' ');
@@ -96,7 +105,7 @@
       div.appendChild(span);
     }
     return div.children;
-  }
+  };
 
   alertHandler.triggerAlertVideo = function(e){
     if(config.general.videoimage === 'video'){
@@ -119,13 +128,18 @@
         e.target.removeAttribute('hidden');
         baseVideo.setAttribute('hidden', '');
       }
+      if(!e.detail.config.activateSpeech){
+        setTimeout(function(){
+          e.target.dispatchEvent(new Event('end'));
+        }, 7000);
+      }
     }
   };
 
   alertHandler.triggerAlertBubble = function(e, imgId){
     textBubble.style.fontSize = e.detail.config.fontSize;
     textBubble.style.fontFamily = `${e.detail.config.typographyId}, verdana`;
-    textBubble.innerHTML = e.detail.config.text(e.detail.alert.name, e.detail.alert.amount, e.detail.alert.currency);
+    textBubble.innerHTML = e.detail.config.text(e.detail.alert.name, e.detail.alert.amount, e.detail.alert.currency, e.detail.alert.gifter);
     let words = splitText(textBubble);
     new TimelineMax({
       onStart: ()=>{
@@ -145,18 +159,17 @@
   alertHandler.endAlert = function(e){
     e.target.pause();
     if(findAlert()){
-      setTimeout(()=>{
-        e.target.setAttribute('hidden', '');
-        e.target.currentTime = 0;
-      }, 50);
+      e.target.setAttribute('hidden', '');
+      e.target.currentTime = 0;
       alertHandler.alertTesting();
     } else{
       baseVideo.removeAttribute('hidden');
       baseVideo.play().then(()=>{
         setTimeout(()=>{
+          if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
           e.target.setAttribute('hidden', '');
           e.target.currentTime = 0;
-          alertHandler.timeOutTest();
+          alertHandler.timerVideo = alertHandler.timeOutTest();
         }, 50);
       });
     }
@@ -169,12 +182,13 @@
     } else{
       baseVideo.removeAttribute('hidden');
       e.target.setAttribute('hidden', '');
-      alertHandler.timeOutTestImage();
+      alertHandler.timerImage = alertHandler.timeOutTestImage();
+      if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
     }
   };
 
   alertHandler.timeOutTest = function(){
-    setTimeout(()=>{
+    return setTimeout(()=>{
       baseVideo.pause();
       timeGapAdd = Math.floor(baseVideo.currentTime)%config.general.intervalTime;
       if(timeGapAdd !== 0){
@@ -187,27 +201,37 @@
   };
 
   alertHandler.timeOutTestImage = function(){
-    setTimeout(()=>{
+    return setTimeout(()=>{
       alertHandler.alertTesting();
-    }, config.general.intervalTime);
+    }, config.general.intervalTime*1000);
+  };
+
+  alertHandler.timeOutBlank = function(){
+    return setTimeout(()=>{
+      alertHandler.setBlankFiller();
+    }, config.general.blankTime*60*1000);
   };
 
   alertHandler.alertTesting = function(){
     const alert = findAlert();
     if(alert){
+      (config.general.videoimage === 'video') ? clearTimeout(alertHandler.timerVideo) : clearTimeout(alertHandler.timerImage);
       alert.alreadyDisplayed = true;
       const alertConfig = findAlertConfig(alert.type);
-      const eventVideo = new Event('triggerAlert');
+      const eventVideo = new CustomEvent('triggerAlert', {detail : {config: alertConfig}});
       const eventBubble = new CustomEvent('triggerAlert', {detail : {config: alertConfig, alert: alert, imgId: `${alertConfig.videoId}-video`}});
       document.getElementById(`${alertConfig.videoId}-video`).dispatchEvent(eventVideo);
-      if(config.general.activateSpeech) document.getElementById(`${alertConfig.bubbleId}-bubble`).dispatchEvent(eventBubble);
+      if(config.general.activateSpeech && alertConfig.activateSpeech) document.getElementById(`${alertConfig.bubbleId}-bubble`).dispatchEvent(eventBubble);
     } else{
       if(config.general.videoimage === 'video'){
-        baseVideo.play().then(this.timeOutTest).catch((err)=>{
+        baseVideo.play().then(()=>{
+          (config.general.videoimage === 'video') ? clearTimeout(alertHandler.timerVideo) : clearTimeout(alertHandler.timerImage);
+          this.timerVideo = this.timeOutTest();
+        }).catch((err)=>{
           showError(`${err}`);
         });
       } else{
-        alertHandler.timeOutTestImage();
+        alertHandler.timerImage = alertHandler.timeOutTestImage();
       }
     }
   };
@@ -226,10 +250,8 @@
 
   alertHandler.setSubscription = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      if(configGiftAndBomb['gift'].activate && streamlabsAlerts[i].variation === configGiftAndBomb['gift'].variation){
+      if(configGiftAndBomb['gift'].activate && typeof streamlabsAlerts[i].gifter !== 'undefined' && streamlabsAlerts[i].gifter !== null){
         alerts.push(new Subgift(streamlabsAlerts[i]));
-      } else if(configGiftAndBomb['bomb'].activate && streamlabsAlerts[i].variation === configGiftAndBomb['bomb'].variation){
-        alerts.push(new Subbomb(streamlabsAlerts[i]));
       } else{
         if(streamlabsAlerts[i].months > 1){
           alerts.push(new Resubscribe(streamlabsAlerts[i]));
@@ -274,6 +296,11 @@
     for(let i=0; i < streamlabsAlerts.length; i++){
       alerts.push(new Raid(streamlabsAlerts[i]));
     }
+  };
+
+  alertHandler.setBlankFiller = function(){
+    alerts.push(new BlankFill(Math.floor(Math.random()*config.general.blankNumber)+1));
+    clearTimeout(alertHandler.timerBlank);
   };
 
 }(window.alertHandler = window.alertHandler || {}));

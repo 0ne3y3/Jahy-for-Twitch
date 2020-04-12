@@ -15,7 +15,6 @@
           <button type="button" class="selected">Tutorial</button>
           <button type="button">General configuration</button>
           <button type="button">Advanced configuration</button>
-          <button type="button">Variations</button>
         </div>
       </div>
       <div class="nav-bar">
@@ -31,7 +30,7 @@
           <button type="button">Others</button>
         </div>
         <div class="small-button" data-bigmenu="Others">
-          <button type="button" disabled>Soon tm</button>
+          <button type="button">Blank Filler</button>
         </div>
       </div>
     </nav>
@@ -214,39 +213,23 @@
         <h2 id="video">Video name or Image name</h2>
         <p class="paragraph">File name of the video/image to display when the alert is triggered. videos/images have to be in "video" folder.</p>
       </div>
-      <div class='section-view' id='variations' hidden>
-        <h1>Variations</h1>
-        <div class='section-image'>
-          <img src='./img/variations.png'/>
-          <p class='descriptions'>The variations menu</p>
-        </div>
-        <p class='separator'></p>
-        <p class="paragraph">The variation alert's options are the same as the others alert.</p>
-        <p class="paragraph">The only difference is how to configure it. You need to add a variation for subscription in your streamlabs dashboard. And then, add the number of the variation in the field right next to the button activate.</p>
-        <div class='section-image'>
-          <img src='./img/subgift-activate.png'/>
-          <p class='descriptions'>Subgift is activate and its number is 2</p>
-        </div>
-        <ol>
-          <li>Connect to streamlabs with your Twitch account: <a href='https://streamlabs.com/dashboard' target="_blank">Streamlabs website</a></li>
-          <li>Go in "Alert box" -> "Subscription"</li>
-          <div class='section-image'>
-            <img src='./img/variations-streamlabs.png'/>
-            <p class='descriptions'>Subgift is activate and its number is 2</p>
-          </div>
-          <li>At the bottom, open the menu "Alert variations"</li>
-          <li>Add the proper variation. For subgift, the condition is "when subscription is a gift". For sub bomb, it's "Users gifted at least (amount) subs at once"</li>
-          <li>Then note the number of the variation and add it in the field next to the button activate</li>
-        </ol>
-        <p class="paragraph">The numbers are from top to bottom. <span class="bold">And it's start at 0 !</span> So the first will be 0, the second will be 1, etc...</p>
-        <div class='section-image'>
-          <img src='./img/variations-numbers.png'/>
-          <p class='descriptions'>From top to bottom, the numbers assigned to the variations</p>
-        </div>
-        <p class="paragraph">In my exemple, my sub bomb variation is number 0, and my sub gift variation is 5.</p>
-      </div>
       <div class='section-view' id='soon-tm' hidden>
         <p class="bold">Soon TM</p>
+      </div>
+      <div class='section-view' id='blank-filler' hidden>
+        <h1>Blank filler</h1>
+        <div class='section-image'>
+          <img src='./img/blank-filler.png'/>
+          <p class='descriptions'>The blank filler menu</p>
+        </div>
+        <p class='separator'></p>
+        <h2 id="center-text">Time</h2>
+        <p class="paragraph">If there is no twitch event (follow/etc...) after X minutes, it play a random alert in the list below.</p>
+        <p class="paragraph">If an alert is triggered, it reset the timer.</p>
+        <p class='separator'></p>
+        <h2 id="center-text">How many alerts</h2>
+        <p class="paragraph">How many alerts you want to add to the list.</p>
+        <p class="paragraph">The configuration of thoses alerts are the same as streamlabs alerts. So see "Advanced configuration" section.</p>
       </div>
     </section>
     <script type="text/javascript" src='../js/wiki.js'></script>

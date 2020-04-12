@@ -167,6 +167,7 @@ window.onload = function(){
       document.getElementById('textBubble').style.fontSize = '30px';
     }
     const alertsForm = document.getElementsByClassName('alerts-form');
+    document.getElementById('textArea').getElementsByTagName('IMG')[0].removeAttribute('hidden');
     for(let i=0; i < alertsForm.length; i++){
       alertsForm[i].elements['select-preview'].checked = false;
       alertsForm[i].elements['select-preview'].removeAttribute('checked');
@@ -249,7 +250,7 @@ window.onload = function(){
     });
 
     alertsForm[i].elements[`${select}-video`].addEventListener('blur', function(e){
-      if(generalForm.elements['video-image'].value === 'video'){
+      if(document.getElementById('form-general').elements['video-image'].value === 'video'){
         preview.changeVideo(e.target, e.target.parentNode.getElementsByClassName('extensions')[0]);
       } else{
         preview.changeImage(e.target, e.target.parentNode.getElementsByClassName('extensions')[0]);
@@ -257,12 +258,13 @@ window.onload = function(){
     });
 
     alertsForm[i].elements[`${select}-video-extension`].addEventListener('blur', function(e){
-      if(generalForm.elements['video-image'].value === 'video'){
+      if(document.getElementById('form-general').elements['video-image'].value === 'video'){
         preview.changeVideo(e.target.parentNode.getElementsByTagName('input')[0], e.target);
       } else{
         preview.changeImage(e.target.parentNode.getElementsByTagName('input')[0], e.target);
       }
     });
+    alertsForm[i].elements[`${select}-text-activate`].addEventListener('change', alerts.alertTextActivate);
   }
 
   /* SUBGIFT-BOMB FORM */
@@ -274,6 +276,10 @@ window.onload = function(){
   /* CONFIGURATION */
   document.getElementById('config-load').addEventListener('click', configFunctions.loadConfig);
   document.getElementById('config-generate').addEventListener('click', configFunctions.generateConfig);
+
+  /* OTHERS */
+  const generalBlank = document.getElementById('blank-filler-general-form');
+  generalBlank.elements['blank-filler-number'].addEventListener('change', alerts.blankFillerChange);
 };
 
 /* When scrolling  */

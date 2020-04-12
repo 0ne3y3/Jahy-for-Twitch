@@ -5,24 +5,31 @@ const client = new StreamlabsSocket.Client({
 });
 
 client.on('follow', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setFollow(data);
 });
 client.on('subscription', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setSubscription(data);
 });
 client.on('bits', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setBits(data);
 });
 client.on('host', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setHost(data);
 });
 client.on('donation', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setDonation(data);
 });
 client.on('raid', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setRaid(data);
 });
 client.on('resub', (...data)=>{
+  clearTimeout(alertHandler.timerBlank);
   alertHandler.setSubscription(data);
 });
 client.connect();
@@ -83,7 +90,7 @@ const importVideo = function(videoName, videoId){
 
 const addBubbles = async function(){
   for(let i=0; i < config.alerts.length; i++){
-    if(!document.getElementById(`${config.alerts[i].bubbleId}-bubble`) && (typeof config.alerts[i].activate === 'undefined' || config.alerts[i].activate)){
+    if(!document.getElementById(`${config.alerts[i].bubbleId}-bubble`) && (typeof config.alerts[i].activate === 'undefined' || config.alerts[i].activate) && config.alerts[i].activateSpeech){
       let bubble = await importBubble(config.alerts[i].bubbleName, config.alerts[i].bubbleId).catch(()=>{
         showError(`404: ${config.alerts[i].bubbleName} not found in "speechBubbles" folder.`);
       });
@@ -112,7 +119,7 @@ const importBubble = function(bubbleName, bubbleId){
 
 const addTypos = async function(){
   for(let i=0; i < config.alerts.length; i++){
-    if(typeof config.alerts[i].activate === 'undefined' || config.alerts[i].activate){
+    if((typeof config.alerts[i].activate === 'undefined' || config.alerts[i].activate) && config.alerts[i].activateSpeech){
       await importFont(config.alerts[i].typography, config.alerts[i].typographyId).catch(()=>{
         config.alerts[i].typographyId = 'verdana';
       });
@@ -172,11 +179,15 @@ window.onload = function(){
       addTypos();
     }
     if(config.general.videoimage === 'video'){
-      video.play().then(alertHandler.timeOutTest).catch((err)=>{
+      video.play().then(()=>{
+        alertHandler.timerVideo = alertHandler.timeOutTest();
+        if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
+      }).catch((err)=>{
         showError(`${err}`);
       });
     } else{
-      alertHandler.timeOutTestImage();
+      alertHandler.timerImage = alertHandler.timeOutTestImage();
+      if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
     }
   }, ()=>{
     showError(`404: ${config.general.baseVideo} not found in "video" folder.`);

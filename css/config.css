@@ -49,6 +49,13 @@ label{
   margin-bottom: 10px;
 }
 
+#blank-filler-form-container .option-container .separator{
+  width: 93%;
+  height: 2px;
+  background-color: #293f90;
+  margin-bottom: 10px;
+}
+
 .separator-small{
   width: 100%;
   height: 2px;
@@ -235,8 +242,13 @@ label{
   margin-bottom: 10px;
 }
 
-.options:not(:first-child){
+.options:not(:nth-child(2)){
   display: flex;
+}
+
+.blank-options{
+  display: flex;
+  margin-bottom: 10px;
 }
 
 #option-subgift-text, #option-bomb-text{
@@ -310,6 +322,20 @@ label{
   padding: 2px;
   border: none;
   font-style: italic;
+}
+
+#blank-filler-form-container input[name$='-text']{
+  margin-top: 10px;
+  width: 425px;
+  background-color: rgba(255,255,255,.4);
+  border-radius: 5px;
+  padding: 2px;
+  border: none;
+  font-style: italic;
+}
+
+#blank-filler-form-container input[name$='-text']:disabled{
+  background-color: rgba(150,150,150,.4);
 }
 
 #general-dot{

@@ -37,6 +37,11 @@
           document.getElementById('activate-speech-yes').checked = false;
         }
 
+        const blankGeneral = document.getElementById('blank-filler-general-form');
+        blankGeneral.elements['blank-filler-general-time'].value = config.general.blankTime;
+        blankGeneral.elements['blank-filler-number'].value = config.general.blankNumber;
+        blankGeneral.elements['blank-filler-number'].dispatchEvent(new Event('change'));
+
         if(config.general.activateSpeech){
           if(config.general.placeSpeech === 'right'){
             document.getElementById('place-speech-right').checked = true;
@@ -71,13 +76,14 @@
         for(let i=0; i < alertsForms.length; i++){
           let form = alertsForms[i];
           let type = form.dataset.type;
+          if(type === 'template') continue;
           let configAlert = config.alerts.find(alert => alert.type === type);
           if(type === 'subgift' || type === 'bomb'){
             form.elements[`activate-alert-${type}`].checked = configAlert.activate;
             form.elements[`activate-alert-${type}`].dispatchEvent(new Event('change'));
-            form.elements[`${type}-variation`].value = configAlert.variation;
           }
-          if(config.general.activateSpeech && (typeof configAlert.activate == 'undefined' || configAlert.activate === true)){
+          form.elements[`${type}-text-activate`].checked = configAlert.activateSpeech;
+          if(config.general.activateSpeech && (typeof configAlert.activate == 'undefined' || configAlert.activate === true) && configAlert.activateSpeech){
             form.elements[`${type}-text`].value = configAlert.textBase;
             form.elements[`${type}-font-size`].value = configAlert.fontSize.slice(0, -2);
             form.elements[`${type}-bubble-time`].value = configAlert.bubbleTime;
@@ -91,6 +97,7 @@
           let video = configFunctions.getNameExtension(configAlert.video);
           form.elements[`${type}-video`].value = video[0];
           form.elements[`${type}-video-extension`].value = video[1];
+          if(!configAlert.activateSpeech) form.elements[`${type}-text-activate`].dispatchEvent(new Event('change'));
         }
         (config.general.activateSpeech) ? preview.activateBubbleSpeech(1) : preview.activateBubbleSpeech(0);
         if(config.general.activateSpeech){
@@ -160,6 +167,7 @@
     const bubbleText = document.getElementById('textBubble');
     const generalForm = document.getElementById('form-general');
     const alertsForms = document.getElementsByClassName('alerts-form');
+    const generalBlank = document.getElementById('blank-filler-general-form');
 
     if(generalForm.elements['streamlabs-token'].value.trim() != ''){
       config.general.token = generalForm.elements['streamlabs-token'].value.trim();
@@ -226,14 +234,23 @@
     config.general.width = `${width}`;
     config.general.height = `${height}`;
 
+    if(generalBlank.elements['blank-filler-number'].value > 0){
+      config.general.blankTime = Number(generalBlank.elements['blank-filler-general-time'].value);
+      config.general.blankNumber = Number(generalBlank.elements['blank-filler-number'].value);
+    } else{
+      config.general.blankTime = 0;
+      config.general.blankNumber = 0;
+    }
+
     for(let i = 0; i < alertsForms.length; i++){
       let alert = {};
       alert.type = alertsForms[i].elements['select-preview'].value;
+      if(alert.type === 'template') continue;
       if(alert.type === 'subgift' || alert.type === 'bomb'){
         alert.activate = alertsForms[i].elements[`activate-alert-${alert.type}`].checked;
-        alert.variation = ((alertsForms[i].elements[`${alert.type}-variation`].value >= 0) ? alertsForms[i].elements[`${alert.type}-variation`].value : 0);
       }
-      if(config.general.activateSpeech && (typeof alert.activate == 'undefined' || alert.activate === true)){
+      if(config.general.activateSpeech && (typeof alert.activate == 'undefined' || alert.activate === true) && alertsForms[i].elements[`${alert.type}-text-activate`].checked){
+        alert.activateSpeech = true;
         if(alerts.testText(alertsForms[i].elements[`${alert.type}-text`])){
           alert.text = alertsForms[i].elements[`${alert.type}-text`].value;
         } else{
@@ -270,6 +287,7 @@
         alert.fontSize = '';
         alert.typography = '';
         alert.typographyId = '';
+        alert.activateSpeech = false;
       }
       if((typeof alert.activate == 'undefined' || alert.activate === true)){
         if(config.general.videoimage === 'video'){
@@ -350,8 +368,8 @@
     let text = `'use strict';const config={general:${JSON.stringify(config.general)},alerts:[`;
     for(let i=0; i < config.alerts.length; i++){
       let alert = config.alerts[i];
-      text += `{bubbleName:"${alert.bubbleName}",bubbleTime:${alert.bubbleTime},fontSize:"${alert.fontSize}",textTime: ${alert.textTime},timeActive:${alert.timeActive},type:"${alert.type}",typography:"${alert.typography}",video:"${alert.video}",bubbleId:"${alert.bubbleId}", typographyId:"${alert.typographyId}", videoId: "${alert.videoId}", textBase: "${alert.text}",${((alert.type === 'subgift' || alert.type === 'bomb') ? 'activate:'+alert.activate+',variation:'+alert.variation+',': '')}`;
-      text += 'text:function(name,amount,currency){return `'+alert.text+'`;}}';
+      text += `{bubbleName:"${alert.bubbleName}",bubbleTime:${alert.bubbleTime},fontSize:"${alert.fontSize}",textTime: ${alert.textTime},timeActive:${alert.timeActive}, activateSpeech:${alert.activateSpeech},type:"${alert.type}",typography:"${alert.typography}",video:"${alert.video}",bubbleId:"${alert.bubbleId}", typographyId:"${alert.typographyId}", videoId: "${alert.videoId}", textBase: "${alert.text}",${((alert.type === 'subgift' || alert.type === 'bomb') ? 'activate:'+alert.activate+',' : '')}`;
+      text += 'text:function(name,amount,currency,gifter){return `'+alert.text+'`;}}';
       if(alert !== config.alerts[config.alerts.length-1]){
         text += ',';
       }

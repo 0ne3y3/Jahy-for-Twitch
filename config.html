@@ -84,6 +84,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="follow" />
               <div class="option-container">
                 <div class="options">
+                  <label for="follow-text-activate">Activate text:</label><input type="checkbox" name="follow-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <label for="follow-text">Follow text:</label><input type="text" name="follow-text" placeholder="Type your message here" value="${name} is following ! Thank you." />
                 </div>
@@ -128,6 +131,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="subscribe" />
               <div class="option-container">
                 <div class="options">
+                  <label for="subscribe-text-activate">Activate text:</label><input type="checkbox" name="subscribe-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <label for="subscribe-text">Subscribe text:</label><input type="text" name="subscribe-text" placeholder="Type your message here" value="${name} is subscribing for the first time ! Thank you !" />
                 </div>
@@ -171,6 +177,9 @@
             <form class="alerts-form" id="resubscribe-form" data-type="resubscribe">
               <input class="select-preview" type="radio" name="select-preview" value="resubscribe" />
               <div class="option-container">
+                <div class="options">
+                  <label for="resubscribe-text-activate">Activate text:</label><input type="checkbox" name="resubscribe-text-activate" checked/>
+                </div>
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of months.</p>
@@ -217,6 +226,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="raid" />
               <div class="option-container">
                 <div class="options">
+                  <label for="raid-text-activate">Activate text:</label><input type="checkbox" name="raid-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of viewers.</p>
                   <label for="raid-text">Raid text:</label><input type="text" name="raid-text" placeholder="Type your message here" value="${name} and their ${amount} viewers want me to pay the rent !" />
@@ -261,6 +273,9 @@
             <form class="alerts-form" id="host-form" data-type="host">
               <input class="select-preview" type="radio" name="select-preview" value="host" />
               <div class="option-container">
+                <div class="options">
+                  <label for="host-text-activate">Activate text:</label><input type="checkbox" name="host-text-activate" checked/>
+                </div>
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of viewers gained.</p>
@@ -307,6 +322,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="bits1" />
               <div class="option-container">
                 <div class="options">
+                  <label for="bits1-text-activate">Activate text:</label><input type="checkbox" name="bits1-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
                   <label for="bits1-text">Bits 1-99 text:</label><input type="text" name="bits1-text" placeholder="Type your message here" value="${name} gave ${amount} bits ! Thanks." />
@@ -351,6 +369,9 @@
             <form class="alerts-form" id="bits100-form" data-type="bits100">
               <input class="select-preview" type="radio" name="select-preview" value="bits100" />
               <div class="option-container">
+                <div class="options">
+                  <label for="bits100-text-activate">Activate text:</label><input type="checkbox" name="bits100-text-activate" checked/>
+                </div>
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
@@ -397,6 +418,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="bits1000" />
               <div class="option-container">
                 <div class="options">
+                  <label for="bits1000-text-activate">Activate text:</label><input type="checkbox" name="bits1000-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
                   <label for="bits1000-text">Bits 1k-4k999 text:</label><input type="text" name="bits1000-text" placeholder="Type your message here" value="${name} gave ${amount} bits ! That's alot !" />
@@ -441,6 +465,9 @@
             <form class="alerts-form" id="bits5000-form" data-type="bits5000">
               <input class="select-preview" type="radio" name="select-preview" value="bits5000" />
               <div class="option-container">
+                <div class="options">
+                  <label for="bits5000-text-activate">Activate text:</label><input type="checkbox" name="bits5000-text-activate" checked/>
+                </div>
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
@@ -487,6 +514,9 @@
               <input class="select-preview" type="radio" name="select-preview" value="bits10000" />
               <div class="option-container">
                 <div class="options">
+                  <label for="bits10000-text-activate">Activate text:</label><input type="checkbox" name="bits10000-text-activate" checked/>
+                </div>
+                <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of bits sent.</p>
                   <label for="bits10000-text">Bits 10k text:</label><input type="text" name="bits10000-text" placeholder="Type your message here" value="WHAT !? ${name} gave ${amount} bits ! Thank you so much !" />
@@ -531,6 +561,9 @@
             <form class="alerts-form" id="donation-form" data-type="donation">
               <input class="select-preview" type="radio" name="select-preview" value="donation" />
               <div class="option-container">
+                <div class="options">
+                  <label for="donation-text-activate">Activate text:</label><input type="checkbox" name="donation-text-activate" checked/>
+                </div>
                 <div class="options">
                   <p class="informations var">"${name}" is the username.</p>
                   <p class="informations var">"${amount}" is the number of money sent.</p>
@@ -579,22 +612,23 @@
           <div>
             <h2>Sub-gift</h2>
             <p class="descriptions">Text displayed when someone gift a sub.</p>
-            <p class="descriptions post-scriptum">PS: you need to setup a special alert in streamlabs.</p>
             <form class="alerts-form" id="subgift-form" data-type="subgift">
               <input class="select-preview" type="radio" name="select-preview" value="subgift" disabled />
               <div class="option-container">
                 <div class="options">
                   <label for="activate-alert-subgift">Activate alert:</label>
                   <input class="activate-alert" type="checkbox" name="activate-alert-subgift" value="subgift" />
-                  <input type="number" name="subgift-variation" value="0" disabled />
-                </div>
-                <div class="options" id="option-subgift-text">
-                  <p class="informations var">"${name}" is the username.</p>
-                  <p class="informations var">Unfortunately we can't get the username of the gifted.</p>
-                  <label for="subgift-text">Sub-gift text:</label><input type="text" name="subgift-text" placeholder="Type your message here" value="Oooh, I see two lovebird..." disabled />
                 </div>
                 <div class="options">
-                  <label for="subgift-font-size">Font size:</label><input type="number" name="subgift-font-size" value="50" disabled />
+                  <label for="subgift-text-activate">Activate text:</label><input type="checkbox" name="subgift-text-activate" checked disabled/>
+                </div>
+                <div class="options" id="option-subgift-text">
+                  <p class="informations var">"${name}" is the username of the gifted.</p>
+                  <p class="informations var">"${gifter}" is the username of the gifter.</p>
+                  <label for="subgift-text">Sub-gift text:</label><input type="text" name="subgift-text" placeholder="Type your message here" value="Oooh, I see two lovebird... ${gifter} and ${name}" disabled />
+                </div>
+                <div class="options">
+                  <label for="subgift-font-size">Font size:</label><input type="number" name="subgift-font-size" value="34" disabled />
                   <p class="informations inline-text">pixels</p>
                 </div>
                 <div class="options">
@@ -627,22 +661,23 @@
               </div>
             </form>
           </div>
-          <div>
+          <!-- <div>
             <h2>Sub-bomb</h2>
             <p class="descriptions">Text displayed when someone gift multiple sub.</p>
-            <p class="descriptions post-scriptum">PS: you need to setup a special alert in streamlabs.</p>
             <form class="alerts-form" id="bomb-form" data-type="bomb">
               <input class="select-preview" type="radio" name="select-preview" value="bomb" disabled />
               <div class="option-container">
                 <div class="options">
                   <label for="activate-alert-bomb">Activate alert:</label>
                   <input class="activate-alert" type="checkbox" name="activate-alert-bomb" value="bomb" />
-                  <input type="number" name="bomb-variation" value="1" disabled />
+                </div>
+                <div class="options">
+                  <label for="bomb-text-activate">Activate text:</label><input type="checkbox" name="bomb-text-activate" checked disabled/>
                 </div>
                 <div class="options" id="option-bomb-text">
-                  <p class="informations var">"${name}" is the username.</p>
-                  <p class="informations var">Unfortunately we can't get the amount of sub gifted.</p>
-                  <label for="bomb-text">Sub-bomb text:</label><input type="text" name="bomb-text" placeholder="Type your message here" value="${name} gifted a lot of subs ! Yatta !" disabled />
+                  <p class="informations var">"${gifter}" is the username of the gifter.</p>
+                  <p class="informations var">"${amount}" is the number of subscription gifted.</p>
+                  <label for="bomb-text">Sub-bomb text:</label><input type="text" name="bomb-text" placeholder="Type your message here" value="${name} gifted ${amount} subs ! Yatta !" disabled />
                 </div>
                 <div class="options">
                   <label for="bomb-font-size">Font size:</label><input type="number" name="bomb-font-size" value="45" disabled />
@@ -677,7 +712,7 @@
                 </div>
               </div>
             </form>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="tabs" id='twitch-chat' hidden>
@@ -685,8 +720,67 @@
         <h2>Soon tm</h2>
       </div>
       <div class="tabs" id='others' hidden>
-        <h1>Others</h1>
-        <h2>Soon tm</h2>
+        <h1>Blank filler</h1>
+        <p class="descriptions">If there is no alert since a long time, play a random animation in this list.</p>
+        <div id="others-config">
+          <div>
+            <h2>General</h2>
+            <form id="blank-filler-general-form">
+              <div class="options blank-options">
+                <label for="blank-filler-general-time">Time :</label><input type="number" name="blank-filler-general-time" value="15" disabled /><p class="informations inline-text">minutes</p>
+              </div>
+              <div class="options blank-options">
+                <label for="blank-filler-number">How many alerts :</label><input type="number" name="blank-filler-number" value="0" />
+              </div>
+            </form>
+          </div>
+          <div id='blank-filler-form-container'>
+            <p class="separator"></p>
+            <h2>Advanced</h2>
+          </div>
+          <form class="alerts-form" id="template-form" data-type="template" hidden>
+            <input class="select-preview" type="radio" name="select-preview" value="template"  hidden/>
+            <div class="option-container" hidden>
+              <div class="options">
+                <label for="template-text-activate">Activate text:</label><input type="checkbox" name="template-text-activate" checked/>
+              </div>
+              <div class="options">
+                <label for="template-text">Text:</label><input type="text" name="template-text" placeholder="Type your message here" value="My text template here"  />
+              </div>
+              <div class="options">
+                <label for="template-font-size">Font size:</label><input type="number" name="template-font-size" value="45"  />
+                <p class="informations inline-text">pixels</p>
+              </div>
+              <div class="options">
+                <label for="template-bubble-time">Bubble time:</label><input type="number" name="template-bubble-time" value="1"  />
+                <p class="informations inline-text">seconds</p>
+              </div>
+              <div class="options">
+                <label for="template-text-time">Text time:</label><input type="number" name="template-text-time" value="0.8"  />
+                <p class="informations inline-text">seconds</p>
+              </div>
+              <div class="options">
+                <label for="template-time-active">Active time:</label><input type="number" name="template-time-active" value="4"  />
+                <p class="informations inline-text">seconds</p>
+              </div>
+              <div class="separator"></div>
+              <div class="options">
+                <label for="template-bubble-name">Name of the bubble:</label><input type="text" name="template-bubble-name" value="normalBubble"  />
+                <p class="informations inline-text">.png</p>
+              </div>
+              <div class="options">
+                <label for="template-typo-name">Typography:</label><input type="text" name="template-typo-name" value="DiamondRegular"  />
+                <p class="informations inline-text">.</p>
+                <input class="extensions" type="text" name="template-typo-extension" value="ttf"  />
+              </div>
+              <div class="options">
+                <label for="template-video">Video name:</label><input type="text" name="template-video" value="Resub"/>
+                <p class="informations inline-text">.</p>
+                <input class="extensions" type="text" name="template-video-extension" value="webm" />
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <div id="preview">

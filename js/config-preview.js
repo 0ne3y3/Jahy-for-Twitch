@@ -85,7 +85,9 @@
           }
         }
         if(words[i] === '${currency}') words[i] = 'USD';
+        if(words[i] === '${gifter}') words[i] = 'John';
         span.textContent = `${words[i]}`;
+        if(!text.form.elements[`${text.form.dataset.type}-text-activate`].checked) span.setAttribute('hidden', 'hidden');
         bubbleText.appendChild(span);
       }
       text.removeAttribute('class');
@@ -127,6 +129,7 @@
       document.getElementById('textArea').insertBefore(img, bubbleText);
       preview.changeBubbleScale(img);
       name.removeAttribute('class');
+      if(!name.form.elements[`${name.form.dataset.type}-text-activate`].checked) document.getElementById('textArea').getElementsByTagName('IMG')[0].setAttribute('hidden', 'hidden');
       if(name.parentNode.lastChild.tagName === 'P' && name.parentNode.lastChild.className !== 'informations inline-text') name.parentNode.lastChild.remove();
     }, ()=>{
       alerts.errorBubble(name);
@@ -169,11 +172,13 @@
 
   preview.changeAnimation = async function(form){
     const type = form.elements['select-preview'].value;
-    if(generalForm.elements['activate-speech'].value == 1){
+    if(generalForm.elements['activate-speech'].value == 1 && form.elements[`${type}-text-activate`].checked){
       preview.changeText(form.elements[`${type}-text`], type, document.getElementById('username-select-container').elements['username-select'].value);
       preview.changeFontSize(form.elements[`${type}-font-size`]);
       preview.changeFontFamily(form.elements[`${type}-typo-name`], form.elements[`${type}-typo-extension`]);
       preview.changeBubble(form.elements[`${type}-bubble-name`]);
+    } else if(generalForm.elements['activate-speech'].value == 1 && !form.elements[`${type}-text-activate`].checked){
+      form.elements[`${type}-text-activate`].dispatchEvent(new Event('change'));
     }
     if(generalForm.elements['video-image'].value === 'video'){
       preview.changeVideo(form.elements[`${type}-video`], form.elements[`${type}-video-extension`]);
@@ -208,11 +213,11 @@
         let type = alertsForms[i].dataset.type;
         for(let j=0; j < alertsForms[i].elements.length; j++){
           if(type === 'subgift' || type === 'bomb'){
-            if(alertsForms[i].elements[`activate-alert-${type}`].checked){
+            if(alertsForms[i].elements[`activate-alert-${type}`].checked && alertsForms[i].elements[`${type}-text-activate`].checked){
               alertsForms[i].elements[j].removeAttribute('disabled', '');
             }
           } else{
-            alertsForms[i].elements[j].removeAttribute('disabled', '');
+            if(alertsForms[i].elements[`${type}-text-activate`].checked || alertsForms[i].elements[`${type}-text-activate`] === alertsForms[i].elements[j]) alertsForms[i].elements[j].removeAttribute('disabled', '');
           }
         }
         if(i===0){
@@ -238,7 +243,6 @@
           div.appendChild(p);
           if(generalForm.elements['place-speech'].value === 'left'){
             document.getElementById('preview-container').insertBefore(div, document.getElementById('videos'));
-
           } else{
             document.getElementById('preview-container').appendChild(div);
           }
@@ -246,6 +250,7 @@
           preview.changeText(alertsForms[i].elements[`${type}-text`], type, document.getElementById('username-select-container').elements['username-select'].value);
           preview.changeFontSize(alertsForms[i].elements[`${type}-font-size`]);
           preview.changeFontFamily(alertsForms[i].elements[`${type}-typo-name`], alertsForms[i].elements[`${type}-typo-extension`]);
+          alertsForms[i].elements[`${type}-text-activate`].dispatchEvent(eChange);
           if(generalForm.elements['video-image'].value === 'video'){
             preview.changeVideo(alertsForms[i].elements[`${type}-video`], alertsForms[i].elements[`${type}-video-extension`]);
           } else{
@@ -297,7 +302,7 @@
       document.getElementById('videos').appendChild(img);
       document.getElementById('videos').style.width = '660px';
       document.getElementById('preview-container').style.height = `760px`;
-      document.getElementById('preview-container').style.width = `${660+bubble.width+gap}px`;
+      document.getElementById('preview-container').style.width = ((typeof bubble !== 'undefined') ? `${660+bubble.width+gap}px` : '660px');
       generalForm.elements['base-video-name'].value = 'noImage';
       generalForm.elements['base-video-extension'].value = 'png';
       generalForm.querySelector(`[for='base-video-name']`).innerHTML = 'Base image:';
@@ -330,7 +335,7 @@
       video.play();
       document.getElementById('videos').style.width = '660px';
       document.getElementById('preview-container').style.height = `760px`;
-      document.getElementById('preview-container').style.width = `${660+bubble.width+gap}px`;
+      document.getElementById('preview-container').style.width = ((typeof bubble !== 'undefined') ? `${660+bubble.width+gap}px` : '660px');
       generalForm.elements['base-video-name'].value = 'Basic';
       generalForm.elements['base-video-extension'].value = 'webm';
       generalForm.querySelector(`[for='base-video-name']`).innerHTML = 'Base Video:';
