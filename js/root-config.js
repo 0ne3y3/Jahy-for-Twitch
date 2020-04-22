@@ -14,7 +14,7 @@ window.onload = function(){
         let type;
         for(let i=0; i < alertsForm.length; i++){
           if(alertsForm[i].elements['select-preview'].checked){
-            text = alertsForm[i].elements[`${alertsForm[i].dataset.type}-text`];
+            text = alertsForm[i].elements[`${alertsForm[i].elements['select-preview'].value}-text`];
             type = alertsForm[i].dataset.type;
           }
         }
@@ -200,10 +200,11 @@ window.onload = function(){
   /* Clicking on a alert form */
   const alertsForm = document.getElementsByClassName('alerts-form');
   for(let i = 0; i < alertsForm.length; i++){
+    if(alertsForm[i].id === 'template-form') continue;
     const select = alertsForm[i].elements['select-preview'].value;
     alertsForm[i].addEventListener('click', function(e){
       const form = e.currentTarget;
-      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (!form.elements['activate-alert-subgift'] || form.elements['activate-alert-subgift'].checked === true) && (!form.elements['activate-alert-bomb'] || form.elements['activate-alert-bomb'].checked === true)){
+      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked)){
         alerts.uncheckPreviewForms();
         alerts.checkPreviewForm(form);
         alerts.resetForm(form);
@@ -265,6 +266,9 @@ window.onload = function(){
       }
     });
     alertsForm[i].elements[`${select}-text-activate`].addEventListener('change', alerts.alertTextActivate);
+
+    const variationForm = document.getElementById(`${alertsForm[i].dataset.type}-variation-form`);
+    variationForm.elements[`${alertsForm[i].dataset.type}-variation-number`].addEventListener('change', alerts.variationChange);
   }
 
   /* SUBGIFT-BOMB FORM */

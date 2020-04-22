@@ -1,31 +1,31 @@
 'use strict';
 (function(alertHandler) {
   class Follow{
-    constructor(alert){
-      this.type = 'follow';
+    constructor(alert, id){
+      this.type = `follow-${id}`;
       this.name = alert.name;
       this.alreadyDisplayed = false;
     }
   };
   class Subscribe{
-    constructor(alert){
-      this.type = 'subscribe';
+    constructor(alert, id){
+      this.type = `subscribe-${id}`;
       this.name = alert.name;
       this.amount = alert.months;
       this.alreadyDisplayed = false;
     }
   };
   class Resubscribe{
-    constructor(alert){
-      this.type = 'resubscribe';
+    constructor(alert, id){
+      this.type = `resubscribe-${id}`;
       this.name = alert.name;
       this.amount = alert.months;
       this.alreadyDisplayed = false;
     }
   };
   class Donation{
-    constructor(alert){
-      this.type = 'donation';
+    constructor(alert, id){
+      this.type = `donation-${id}`;
       this.name = alert.from;
       this.currency = alert.currency;
       alert.amount = alert.amount.toFixed(2);
@@ -34,40 +34,40 @@
     }
   };
   class Host{
-    constructor(alert){
-      this.type = 'host';
+    constructor(alert, id){
+      this.type = `host-${id}`;
       this.name = alert.name;
       this.amount = Number(alert.viewers);
       this.alreadyDisplayed = false;
     }
   };
   class Bits{
-    constructor(alert, amount){
-      this.type = `bits${amount}`;
+    constructor(alert, amount, id){
+      this.type = `bits${amount}-${id}`;
       this.name = alert.name;
       this.amount = Number(alert.amount);
       this.alreadyDisplayed = false;
     }
   };
   class Raid{
-    constructor(alert){
-      this.type = 'raid';
+    constructor(alert, id){
+      this.type = `raid-${id}`;
       this.name = alert.name;
       this.amount = alert.raiders;
       this.alreadyDisplayed = false;
     }
   };
   class Subgift{
-    constructor(alert){
-      this.type = 'subgift';
+    constructor(alert, id){
+      this.type = `subgift-${id}`;
       this.name = alert.name;
       this.gifter = alert.gifter;
       this.alreadyDisplayed = false;
     }
   };
   class Subbomb{
-    constructor(alert){
-      this.type = 'bomb';
+    constructor(alert, id){
+      this.type = `bomb-${id}`;
       this.name = alert.name;
       this.gifter = alert.gifter;
       this.amount = alert.amount;
@@ -82,9 +82,6 @@
   };
 
   const alerts = new Array();
-  const configGiftAndBomb = new Array();
-  configGiftAndBomb['gift'] = config.alerts.find(alert => alert.type === 'subgift');
-  configGiftAndBomb['bomb'] = config.alerts.find(alert => alert.type === 'bomb');
   let timeGapAdd = 0;
   let baseVideo;
 
@@ -244,19 +241,19 @@
 
   alertHandler.setFollow = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      alerts.push(new Follow(streamlabsAlerts[i]));
+      alerts.push(new Follow(streamlabsAlerts[i], Math.floor(Math.random()*config.general.followVariationNumber)+1));
     }
   };
 
   alertHandler.setSubscription = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      if(configGiftAndBomb['gift'].activate && typeof streamlabsAlerts[i].gifter !== 'undefined' && streamlabsAlerts[i].gifter !== null){
-        alerts.push(new Subgift(streamlabsAlerts[i]));
+      if(config.general.subgiftActivate && typeof streamlabsAlerts[i].gifter !== 'undefined' && streamlabsAlerts[i].gifter !== null){
+        alerts.push(new Subgift(streamlabsAlerts[i], Math.floor(Math.random()*config.general.subgiftVariationNumber)+1));
       } else{
         if(streamlabsAlerts[i].months > 1){
-          alerts.push(new Resubscribe(streamlabsAlerts[i]));
+          alerts.push(new Resubscribe(streamlabsAlerts[i], Math.floor(Math.random()*config.general.resubscribeVariationNumber)+1));
         } else{
-          alerts.push(new Subscribe(streamlabsAlerts[i]));
+          alerts.push(new Subscribe(streamlabsAlerts[i], Math.floor(Math.random()*config.general.subscribeVariationNumber)+1));
         }
       }
     }
@@ -264,13 +261,13 @@
 
   alertHandler.setDonation = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      alerts.push(new Donation(streamlabsAlerts[i]));
+      alerts.push(new Donation(streamlabsAlerts[i], Math.floor(Math.random()*config.general.donationVariationNumber)+1));
     }
   };
 
   alertHandler.setHost = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      alerts.push(new Host(streamlabsAlerts[i]));
+      alerts.push(new Host(streamlabsAlerts[i], Math.floor(Math.random()*config.general.hostVariationNumber)+1));
     }
   };
 
@@ -278,23 +275,22 @@
     for(let i=0; i < streamlabsAlerts.length; i++){
       let amount = Number(streamlabsAlerts[i].amount);
       if(amount >= 1 && amount < 100){
-        alerts.push(new Bits(streamlabsAlerts[i], '1'));
+        alerts.push(new Bits(streamlabsAlerts[i], '1', Math.floor(Math.random()*config.general.bits1VariationNumber)+1));
       } else if(amount >= 100 && amount < 1000){
-        alerts.push(new Bits(streamlabsAlerts[i], '100'));
+        alerts.push(new Bits(streamlabsAlerts[i], '100', Math.floor(Math.random()*config.general.bits100VariationNumber)+1));
       } else if(amount >= 1000 && amount < 5000){
-        alerts.push(new Bits(streamlabsAlerts[i], '1000'));
+        alerts.push(new Bits(streamlabsAlerts[i], '1000', Math.floor(Math.random()*config.general.bits1000VariationNumber)+1));
       } else if(amount >= 5000 && amount < 10000){
-        alerts.push(new Bits(streamlabsAlerts[i], '5000'));
+        alerts.push(new Bits(streamlabsAlerts[i], '5000', Math.floor(Math.random()*config.general.bits5000VariationNumber)+1));
       } else if(amount >= 10000){
-        alerts.push(new Bits(streamlabsAlerts[i], '10000'));
+        alerts.push(new Bits(streamlabsAlerts[i], '10000', Math.floor(Math.random()*config.general.bits10000VariationNumber)+1));
       }
-
     }
   };
 
   alertHandler.setRaid = function(streamlabsAlerts){
     for(let i=0; i < streamlabsAlerts.length; i++){
-      alerts.push(new Raid(streamlabsAlerts[i]));
+      alerts.push(new Raid(streamlabsAlerts[i], Math.floor(Math.random()*config.general.raidVariationNumber)+1));
     }
   };
 

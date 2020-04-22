@@ -39,6 +39,7 @@ window.onload = function(){
         for(let i=0; i < sectionViews.length; i++){
           sectionViews[i].setAttribute('hidden', 'hidden');
         }
+        console.log(view);
         document.getElementById(view).removeAttribute('hidden');
       });
     }

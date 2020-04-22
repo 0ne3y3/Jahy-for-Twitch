@@ -42,6 +42,18 @@
         blankGeneral.elements['blank-filler-number'].value = config.general.blankNumber;
         blankGeneral.elements['blank-filler-number'].dispatchEvent(new Event('change'));
 
+        const variationsForm = document.getElementsByClassName('variation-form');
+        for(let i=0; i < variationsForm.length; i++){
+          const type = variationsForm[i].dataset.type;
+          if(config.general[`${type}VariationNumber`] > 1){
+            variationsForm[i].elements[`${type}-variation-number`].value = config.general[`${type}VariationNumber`]-1;
+            variationsForm[i].elements[`${type}-variation-number`].dispatchEvent(new Event('change'));
+          }
+        }
+
+        document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked = config.general.subgiftActivate;
+
+
         if(config.general.activateSpeech){
           if(config.general.placeSpeech === 'right'){
             document.getElementById('place-speech-right').checked = true;
@@ -75,13 +87,9 @@
 
         for(let i=0; i < alertsForms.length; i++){
           let form = alertsForms[i];
-          let type = form.dataset.type;
+          let type = form.elements['select-preview'].value;
           if(type === 'template') continue;
           let configAlert = config.alerts.find(alert => alert.type === type);
-          if(type === 'subgift' || type === 'bomb'){
-            form.elements[`activate-alert-${type}`].checked = configAlert.activate;
-            form.elements[`activate-alert-${type}`].dispatchEvent(new Event('change'));
-          }
           form.elements[`${type}-text-activate`].checked = configAlert.activateSpeech;
           if(config.general.activateSpeech && (typeof configAlert.activate == 'undefined' || configAlert.activate === true) && configAlert.activateSpeech){
             form.elements[`${type}-text`].value = configAlert.textBase;
@@ -105,6 +113,7 @@
           generalForm.elements['color-text'].dispatchEvent(new Event('blur'));
           (config.general.shadowText) ? preview.changeShadow('ON') : preview.changeShadow('OFF');
         }
+        document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].dispatchEvent(new Event('change'));
         setTimeout(()=>{
           generalForm.elements['base-video-name'].dispatchEvent(new Event('blur'));
         }, 20);
@@ -168,6 +177,7 @@
     const generalForm = document.getElementById('form-general');
     const alertsForms = document.getElementsByClassName('alerts-form');
     const generalBlank = document.getElementById('blank-filler-general-form');
+    const variationForms = document.getElementsByClassName('variation-form');
 
     if(generalForm.elements['streamlabs-token'].value.trim() != ''){
       config.general.token = generalForm.elements['streamlabs-token'].value.trim();
@@ -242,12 +252,16 @@
       config.general.blankNumber = 0;
     }
 
+    for(let i=0; i < variationForms.length; i++){
+      config.general[`${variationForms[i].dataset.type}VariationNumber`] = Number(variationForms[i].elements[`${variationForms[i].dataset.type}-variation-number`].value)+1;
+    }
+
     for(let i = 0; i < alertsForms.length; i++){
       let alert = {};
       alert.type = alertsForms[i].elements['select-preview'].value;
       if(alert.type === 'template') continue;
-      if(alert.type === 'subgift' || alert.type === 'bomb'){
-        alert.activate = alertsForms[i].elements[`activate-alert-${alert.type}`].checked;
+      if(alert.type === 'subgift-1' || alert.type === 'bomb-1'){
+        config.general[`${alertsForms[i].dataset.type}Activate`] = document.getElementById(`${alertsForms[i].dataset.type}-activation-form`).elements[`activate-alert-${alertsForms[i].dataset.type}`].checked;
       }
       if(config.general.activateSpeech && (typeof alert.activate == 'undefined' || alert.activate === true) && alertsForms[i].elements[`${alert.type}-text-activate`].checked){
         alert.activateSpeech = true;

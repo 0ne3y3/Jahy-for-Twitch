@@ -10,7 +10,6 @@ Nearly every alerts are handled :
 - Host
 - Donation
 - Subgift
-- Subbomb (beta)
 - All bits stages :
   * 1 bit
   * 100 bits
@@ -24,6 +23,10 @@ Spread Jahy over twitch !!
 
 With the new configuration page, you can replace Jahy with any character you want. Also It doesn't have to be an animation/video, it work with images/gifs too !
 The wiki page will explain to you all the customable options to setup your own character.
+
+### Blank filler
+
+If there is no alert since a long time (every X minutes), it play a random animation. To add some variations to the looping video.
 
 ## Exemples
 
@@ -55,7 +58,7 @@ Image exemple :
 ## Future update
 
 * Create a new websocket connection to twitch chat. Your character will be able to react to what people say ! Some keyword will trigger an animation + text !
-* Code the script and create some animations when nothing happen in a long time (no alerts since 15min/20min/etc...)
+* Code the script and create some animations when nothing happen in a long time (no alerts since 15min/20min/etc...).
 
 ## Authors
 

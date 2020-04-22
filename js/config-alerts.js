@@ -142,22 +142,44 @@
   };
 
   alerts.activateAlert = function(e){
-    const form = document.getElementById(`${e.target.value}-form`);
+    const form = document.getElementById(`${e.target.value}-form-1`);
+    const type = form.dataset.type;
     if(e.target.checked){
       let formGeneral = document.getElementById('form-general');
-      let type = form.dataset.type;
       for(let i=0; i < form.elements.length; i++){
-        if(formGeneral.elements['activate-speech'].value == 0){
-          if(form.elements[i] === form.elements[`${type}-video`] || form.elements[i] === form.elements['select-preview'] || form.elements[i] === form.elements[`${type}-video-extension`] && form.elements[i] !== form.elements[`activate-alert-${type}`]){
+        const numberType = form.elements[`select-preview`].value;
+        if(formGeneral.elements['activate-speech'].value == 0 || !form.elements[`${numberType}-text-activate`].checked){
+          if(form.elements[i] === form.elements[`${numberType}-video`] || form.elements[i] === form.elements['select-preview'] || form.elements[i] === form.elements[`${numberType}-video-extension`] && form.elements[i] !== form.elements[`${numberType}-text-activate`]){
             form.elements[i].disabled = false;
           }
         } else{
-          if(form.elements[i] !== e.target) form.elements[i].disabled = false;
+          form.elements[i].disabled = false;
+        }
+      }
+      document.getElementById(`${type}-variation-form`).elements[`${type}-variation-number`].disabled = false;
+      const formsVar = document.getElementById(`${type}-variation-form-container`).getElementsByTagName('FORM');
+      for(let i=0; i < formsVar.length; i++){
+        for(let j=0; j < formsVar[i].elements.length; j++){
+          const numberType = formsVar[i].elements[`select-preview`].value;
+          if(formGeneral.elements['activate-speech'].value == 0 || !formsVar[i].elements[`${numberType}-text-activate`].checked){
+            if(formsVar[i].elements[j] === formsVar[i].elements[`${numberType}-video`] || formsVar[i].elements[j] === formsVar[i].elements['select-preview'] || formsVar[i].elements[j] === formsVar[i].elements[`${numberType}-video-extension`] && formsVar[i].elements[i] !== formsVar[i].elements[`${numberType}-text-activate`]){
+              formsVar[i].elements[j].disabled = false;
+            }
+          } else{
+            formsVar[i].elements[j].disabled = false;
+          }
         }
       }
     } else{
       for(let i=0; i < form.elements.length; i++){
         if(form.elements[i] !== e.target) form.elements[i].disabled = true;
+      }
+      document.getElementById(`${type}-variation-form`).elements[`${type}-variation-number`].disabled = true;
+      const formsVar = document.getElementById(`${type}-variation-form-container`).getElementsByTagName('FORM');
+      for(let i=0; i < formsVar.length; i++){
+        for(let j=0; j < formsVar[i].elements.length; j++){
+          formsVar[i].elements[j].disabled = true;
+        }
       }
     }
   };
@@ -216,6 +238,62 @@
     }
   };
 
+  alerts.alertTextActivate = async function(e){
+    const form = e.target.form;
+    const type = form.elements['select-preview'].value;
+    const container = document.getElementById('textArea');
+    if(e.target.checked){
+      for(let i=0; i < form.elements.length; i++){
+        if(form.elements[i] !== form.elements[`${type}-video`] && form.elements[i] !== form.elements['select-preview'] && form.elements[i] !== form.elements[`${type}-video-extension`] && form.elements[i] !== form.elements[`activate-alert-${type}`] && form.elements[i] !== form.elements[`${type}-text-activate`]){
+            form.elements[i].removeAttribute('disabled');
+        }
+      }
+      container.getElementsByTagName('IMG')[0].removeAttribute('hidden');
+      const spans = container.getElementsByTagName('SPAN');
+      for(let i=0; i < spans.length; i++) spans[i].removeAttribute('hidden');
+      form.elements[`${type}-text`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-font-size`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-bubble-time`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-text-time`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-time-active`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-bubble-name`].dispatchEvent(new Event('blur'));
+      form.elements[`${type}-typo-name`].dispatchEvent(new Event('blur'));
+    } else{
+      for(let i=0; i < form.elements.length; i++){
+        if(form.elements[i] !== form.elements[`${type}-video`] && form.elements[i] !== form.elements['select-preview'] && form.elements[i] !== form.elements[`${type}-video-extension`] && form.elements[i] !== form.elements[`activate-alert-${type}`] && form.elements[i] !== form.elements[`${type}-text-activate`]){
+            form.elements[i].setAttribute('disabled', 'disabled');
+        }
+      }
+      container.getElementsByTagName('IMG')[0].setAttribute('hidden', 'hidden');
+      const spans = container.getElementsByTagName('SPAN');
+      for(let i=0; i < spans.length; i++) spans[i].setAttribute('hidden', 'hidden');
+    }
+  };
+
+  alerts.variationChange = async function(e){
+    const type = e.target.form.dataset.type;
+    if(e.target.value > 0){
+      const forms = document.getElementById(`${type}-variation-form-container`).getElementsByTagName('FORM');
+      if(e.target.value < forms.length){
+        const container = document.getElementById(`${type}-variation-form-container`);
+        while(e.target.value < forms.length) container.removeChild(container.lastChild);
+      } else if(e.target.value > forms.length){
+        const container = document.getElementById(`${type}-variation-form-container`);
+        for(let i = forms.length; i < e.target.value; i++){
+          const dupForm = alerts.duplicateForm(`${type}-${forms.length+2}`);
+          const p = document.createElement('P');
+          p.className = 'separator';
+          container.appendChild(p);
+          container.appendChild(dupForm);
+        }
+      }
+    } else{
+      if(e.target.value < 0) e.target.value = 0;
+      const container = document.getElementById(`${type}-variation-form-container`);
+      while(container.firstChild) container.removeChild(container.lastChild);
+    }
+  };
+
   /* OTHER */
   alerts.blankFillerChange = function(e){
     if(e.target.value > 0){
@@ -246,43 +324,12 @@
     return bef.replace('template', id);
   };
 
-  alerts.alertTextActivate = async function(e){
-    const form = e.target.form;
-    const type = form.dataset.type;
-    const container = document.getElementById('textArea');
-    if(e.target.checked){
-      for(let i=0; i < form.elements.length; i++){
-        if(form.elements[i] !== form.elements[`${type}-video`] && form.elements[i] !== form.elements['select-preview'] && form.elements[i] !== form.elements[`${type}-video-extension`] && form.elements[i] !== form.elements[`activate-alert-${type}`] && form.elements[i] !== form.elements[`${type}-text-activate`]){
-            form.elements[i].removeAttribute('disabled');
-        }
-      }
-      container.getElementsByTagName('IMG')[0].removeAttribute('hidden');
-      const spans = container.getElementsByTagName('SPAN');
-      for(let i=0; i < spans.length; i++) spans[i].removeAttribute('hidden');
-      form.elements[`${type}-text`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-font-size`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-bubble-time`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-text-time`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-time-active`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-bubble-name`].dispatchEvent(new Event('blur'));
-      form.elements[`${type}-typo-name`].dispatchEvent(new Event('blur'));
-    } else{
-      for(let i=0; i < form.elements.length; i++){
-        if(form.elements[i] !== form.elements[`${type}-video`] && form.elements[i] !== form.elements['select-preview'] && form.elements[i] !== form.elements[`${type}-video-extension`] && form.elements[i] !== form.elements[`activate-alert-${type}`] && form.elements[i] !== form.elements[`${type}-text-activate`]){
-            form.elements[i].setAttribute('disabled', 'disabled');
-        }
-      }
-      container.getElementsByTagName('IMG')[0].setAttribute('hidden', 'hidden');
-      const spans = container.getElementsByTagName('SPAN');
-      for(let i=0; i < spans.length; i++) spans[i].setAttribute('hidden', 'hidden');
-    }
-  };
-
   alerts.duplicateForm = function(id){
     const template = document.getElementById('template-form');
     const dupForm = template.cloneNode(true);
     dupForm.id = id;
-    dupForm.dataset.type = id;
+    dupForm.dataset.type = id.slice(0,-2);
+    dupForm.elements['select-preview'].value = id;
     dupForm.elements['select-preview'].value = id;
     const labels = dupForm.getElementsByTagName('LABEL');
     for (let j = 0; j < labels.length; j++){
@@ -293,12 +340,12 @@
       if(elements[j] !== elements[0]){
         elements[j].name = alerts.blankFillerRegex(elements[j].name, id);
       }
-    }
+    };
 
     const select = dupForm.elements['select-preview'].value;
     dupForm.addEventListener('click', function(e){
       const form = e.currentTarget;
-      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (!form.elements['activate-alert-subgift'] || form.elements['activate-alert-subgift'].checked === true) && (!form.elements['activate-alert-bomb'] || form.elements['activate-alert-bomb'].checked === true)){
+      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked)){
         alerts.uncheckPreviewForms();
         alerts.checkPreviewForm(form);
         alerts.resetForm(form);
@@ -306,7 +353,7 @@
       }
     });
     dupForm.elements[`${select}-text`].addEventListener('blur', function(e){
-      preview.changeText(e.target, e.target.parentNode.parentNode.parentNode.dataset.type, document.getElementById('username-select-container').elements['username-select'].value);
+      preview.changeText(e.target, e.target.parentNode.parentNode.parentNode.elements['select-preview'].value, document.getElementById('username-select-container').elements['username-select'].value);
     });
     dupForm.elements[`${select}-font-size`].addEventListener('blur', function(e){
       preview.changeFontSize(e.target);

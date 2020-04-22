@@ -87,7 +87,7 @@
         if(words[i] === '${currency}') words[i] = 'USD';
         if(words[i] === '${gifter}') words[i] = 'John';
         span.textContent = `${words[i]}`;
-        if(!text.form.elements[`${text.form.dataset.type}-text-activate`].checked) span.setAttribute('hidden', 'hidden');
+        if(!text.form.elements[`${text.form.elements['select-preview'].value}-text-activate`].checked) span.setAttribute('hidden', 'hidden');
         bubbleText.appendChild(span);
       }
       text.removeAttribute('class');
@@ -129,7 +129,7 @@
       document.getElementById('textArea').insertBefore(img, bubbleText);
       preview.changeBubbleScale(img);
       name.removeAttribute('class');
-      if(!name.form.elements[`${name.form.dataset.type}-text-activate`].checked) document.getElementById('textArea').getElementsByTagName('IMG')[0].setAttribute('hidden', 'hidden');
+      if(!name.form.elements[`${name.form.elements['select-preview'].value}-text-activate`].checked) document.getElementById('textArea').getElementsByTagName('IMG')[0].setAttribute('hidden', 'hidden');
       if(name.parentNode.lastChild.tagName === 'P' && name.parentNode.lastChild.className !== 'informations inline-text') name.parentNode.lastChild.remove();
     }, ()=>{
       alerts.errorBubble(name);
@@ -210,7 +210,7 @@
           alertsForms[i].elements['select-preview'].setAttribute('checked', '');
           alertsForms[i].elements['select-preview'].checked = true;
         }
-        let type = alertsForms[i].dataset.type;
+        let type = alertsForms[i].elements['select-preview'].value;
         for(let j=0; j < alertsForms[i].elements.length; j++){
           if(type === 'subgift' || type === 'bomb'){
             if(alertsForms[i].elements[`activate-alert-${type}`].checked && alertsForms[i].elements[`${type}-text-activate`].checked){
@@ -280,7 +280,7 @@
       document.getElementById('preview-container').style.width = `${alerts.calculateTotalPreview()}px`;
       for(let i=0; i < alertsForms.length; i++){
         for(let j=0; j < alertsForms[i].elements.length; j++){
-          let type = alertsForms[i].dataset.type;
+          let type = alertsForms[i].elements['select-preview'].value;
           if(alertsForms[i].elements[j] !== alertsForms[i].elements[`${type}-video`] && alertsForms[i].elements[j] !== alertsForms[i].elements['select-preview'] && alertsForms[i].elements[j] !== alertsForms[i].elements[`${type}-video-extension`] && alertsForms[i].elements[j] !== alertsForms[i].elements[`activate-alert-${type}`]){
             alertsForms[i].elements[j].setAttribute('disabled', '');
           }
@@ -342,7 +342,11 @@
       for(let i=0; i < alertsForms.length; i++){
         const type = alertsForms[i].elements['select-preview'].value;
         alertsForms[i].querySelector(`[for='${type}-video']`).innerHTML = 'Video name:';
-        alertsForms[i].elements[`${type}-video`].value = `${type.charAt(0).toUpperCase()+type.slice(1)}`;
+        if(type === 'template'){
+          alertsForms[i].elements[`${type}-video`].value = 'resub';
+        } else{
+          alertsForms[i].elements[`${type}-video`].value = `${type.charAt(0).toUpperCase()+type.slice(1, -2)}`;
+        }
         alertsForms[i].elements[`${type}-video-extension`].value = 'webm';
       }
       if(generalForm.elements['activate-speech'].value == '1'){
