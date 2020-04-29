@@ -1,4 +1,51 @@
 'use strict';
+let twitchClient = undefined;
+const twitchTimers = [];
+const users = [];
+if(config.twitch.general.activate){
+  for(let i=0; i < config.twitch.regex.length; i++){
+    twitchTimers.push({id: config.twitch.regex[i].id, available: true, timeOut: undefined});
+  }
+  twitchTimers.push()
+  twitchClient = new tmi.Client({
+    "connection": {
+      "reconnect": true
+    },
+
+    "identity": {
+      "username": config.twitch.general.botName,
+      "password": config.twitch.general.botPassword
+    },
+
+    "channels": [`#${config.twitch.general.botChannel}`]});
+  twitchClient.on('chat', (channel, user, message, self)=>{
+    if(self) return;
+    if(config.twitch.general.greetActivate && !users.find(username => username === user.username)){
+      alertHandler.setGreet(user.username);
+      users.push(user.username);
+    } else if(config.twitch.general.ballActivate && new RegExp('^;8ball').test(message)){
+      alertHandler.setBall(user.username);
+    } else if(config.twitch.general.oddevenActivate && new RegExp('^;d20').test(message)){
+      alertHandler.setOddeven(user.username);
+    } else{
+      for(let i=0; i < config.twitch.regex.length; i++){
+        let regex = config.twitch.regex[i];
+        let timer = twitchTimers.find(timer => timer.id === regex.id);
+        if(new RegExp(regex.regex, 'i').test(message) && timer.available){
+          clearTimeout(timer.timeOut);
+          timer.available = false;
+          timer.timeOut = setTimeout(()=>{
+            timer.available = true;
+          }, 1000*60);
+          alertHandler.setChat(user.username, regex.id);
+          break;
+        }
+      }
+    }
+  });
+  twitchClient.connect();
+}
+
 const client = new StreamlabsSocket.Client({
   token: config.general.token,
   emitTests: true

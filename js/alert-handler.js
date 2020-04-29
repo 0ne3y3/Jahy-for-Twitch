@@ -80,6 +80,35 @@
       this.alreadyDisplayed = false;
     }
   };
+  class Greet{
+    constructor(username, id){
+      this.type = `greet-${id}`;
+      this.name = username;
+      this.alreadyDisplayed = false;
+    }
+  };
+  class Ball{
+    constructor(username, id){
+      this.type = `8ball-${id}`;
+      this.name = username;
+      this.alreadyDisplayed = false;
+    }
+  };
+  class Chat{
+    constructor(username, id, number){
+      this.type = `${id}-${number}`;
+      this.name = username;
+      this.alreadyDisplayed = false;
+    }
+  };
+  class Oddeven{
+    constructor(username, id){
+      this.type = `oddeven-${id}`;
+      this.name = username;
+      this.amount = Math.floor(Math.random()*20)+1;
+      this.alreadyDisplayed = false;
+    }
+  };
 
   const alerts = new Array();
   let timeGapAdd = 0;
@@ -296,6 +325,26 @@
 
   alertHandler.setBlankFiller = function(){
     alerts.push(new BlankFill(Math.floor(Math.random()*config.general.blankNumber)+1));
+    clearTimeout(alertHandler.timerBlank);
+  };
+
+  alertHandler.setGreet = function(username){
+    alerts.push(new Greet(username ,Math.floor(Math.random()*config.twitch.general.greetVariationNumber)+1));
+    clearTimeout(alertHandler.timerBlank);
+  };
+
+  alertHandler.setBall = function(username){
+    alerts.push(new Ball(username ,Math.floor(Math.random()*config.twitch.general['8ballVariationNumber'])+1));
+    clearTimeout(alertHandler.timerBlank);
+  };
+
+  alertHandler.setChat = function(username, id){
+    alerts.push(new Chat(username , id, Math.floor(Math.random()*config.twitch.general[`${id}VariationNumber`])+1));
+    clearTimeout(alertHandler.timerBlank);
+  };
+
+  alertHandler.setOddeven = function(username){
+    alerts.push(new Oddeven(username , Math.floor(Math.random()*config.twitch.general[`oddevenVariationNumber`])+1));
     clearTimeout(alertHandler.timerBlank);
   };
 

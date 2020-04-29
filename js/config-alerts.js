@@ -330,7 +330,6 @@
     dupForm.id = id;
     dupForm.dataset.type = id.slice(0,-2);
     dupForm.elements['select-preview'].value = id;
-    dupForm.elements['select-preview'].value = id;
     const labels = dupForm.getElementsByTagName('LABEL');
     for (let j = 0; j < labels.length; j++){
       labels[j].setAttribute('for', alerts.blankFillerRegex(labels[j].getAttribute('for'), id));
@@ -345,7 +344,7 @@
     const select = dupForm.elements['select-preview'].value;
     dupForm.addEventListener('click', function(e){
       const form = e.currentTarget;
-      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked)){
+      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked) && (form.dataset.type !== 'greet' || document.getElementById('greet-activation-form').elements['activate-alert-greet'].checked) && (form.dataset.type !== '8ball' || document.getElementById('8ball-activation-form').elements['activate-alert-8ball'].checked) && (form.dataset.type !== 'oddeven' || document.getElementById('oddeven-activation-form').elements['activate-alert-oddeven'].checked)){
         alerts.uncheckPreviewForms();
         alerts.checkPreviewForm(form);
         alerts.resetForm(form);
@@ -403,6 +402,66 @@
     dupForm.elements['select-preview'].removeAttribute('hidden');
 
     return dupForm;
+  };
+
+  alerts.twitchChatNumber = function(e){
+    if(e.target.value > 0){
+      let forms = document.getElementById('twitch-chat-alerts').getElementsByClassName('twitch-alert');
+      if(e.target.value < forms.length){
+        const container = document.getElementById('twitch-chat-alerts');
+        while(e.target.value < forms.length) container.removeChild(container.lastChild);
+      } else if(e.target.value > forms.length){
+        for(let i = forms.length; i < e.target.value; i++){
+          const dupDiv = alerts.duplicateTwitchDiv(`twitchChat-${forms.length+1}`);
+          dupDiv.getElementsByTagName('H2')[0].innerHTML = `Twitch alert ${forms.length+1}`;
+          const dupForm = alerts.duplicateForm(`twitchChat-${forms.length+1}-1`);
+          dupDiv.getElementsByClassName('separator')[0].after(dupForm);
+          document.getElementById('twitch-chat-alerts').appendChild(dupDiv);
+          const p = document.createElement('P');
+          const p2 = document.createElement('P');
+          p.className = 'separator-double';
+          p2.className = 'separator-double';
+          document.getElementById('twitch-chat-alerts').appendChild(p);
+          document.getElementById('twitch-chat-alerts').appendChild(p2);
+          dupDiv.removeAttribute('hidden');
+        }
+      }
+    } else{
+      if(e.target.value < 0) e.target.value = 0;
+      const container = document.getElementById('twitch-chat-alerts');
+      while(container.firstChild) container.removeChild(container.lastChild);
+    }
+  };
+
+  alerts.duplicateTwitchDiv = function(id){
+    const template = document.getElementById('templateTwitch');
+    const dupDiv = template.cloneNode(true);
+    dupDiv.id = id;
+    const forms = dupDiv.getElementsByTagName('FORM');
+    for (let j = 0; j < forms.length; j++){
+      forms[j].dataset.type = id;
+      forms[j].id = alerts.twitchReplaceRegex(forms[j].id, id);
+    }
+    const selects = dupDiv.getElementsByTagName('SELECT');
+    for (let j = 0; j < selects.length; j++){
+      selects[j].name = alerts.twitchReplaceRegex(selects[j].name, id);
+    }
+    const labels = dupDiv.getElementsByTagName('LABEL');
+    for (let j = 0; j < labels.length; j++){
+      labels[j].setAttribute('for', alerts.twitchReplaceRegex(labels[j].getAttribute('for'), id));
+    }
+    const elements = dupDiv.getElementsByTagName('INPUT');
+    for (let j = 0; j < elements.length; j++){
+      elements[j].name = alerts.twitchReplaceRegex(elements[j].name, id);
+    };
+
+    dupDiv.getElementsByTagName('DIV')[2].id = alerts.twitchReplaceRegex(dupDiv.getElementsByTagName('DIV')[2].id, id);
+    forms[1].elements[`${id}-variation-number`].addEventListener('change', alerts.variationChange);
+    return dupDiv;
+  };
+
+  alerts.twitchReplaceRegex = function(bef, id){
+    return bef.replace('templateTwitch', id);
   };
 
 }(window.alerts = window.alerts || {}));

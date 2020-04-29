@@ -37,22 +37,56 @@
           document.getElementById('activate-speech-yes').checked = false;
         }
 
+        if(config.twitch.general.activate){
+          const twitchGeneralForm = document.getElementById('form-twitch-general');
+          twitchGeneralForm.elements['twitch-activate'].checked = true;
+          twitchGeneralForm.elements['twitch-activate'].dispatchEvent(new Event('change'));
+          twitchGeneralForm.elements['twitch-name'].value = config.twitch.general.botName;
+          twitchGeneralForm.elements['twitch-password'].value = config.twitch.general.botPassword;
+          twitchGeneralForm.elements['twitch-channel'].value = config.twitch.general.botChannel;
+          document.getElementById('twitch-chat-form-number').elements['twitch-chat-number'].value = config.twitch.regex.length;
+          document.getElementById('twitch-chat-form-number').elements['twitch-chat-number'].dispatchEvent(new Event('change'));
+        }
+
         const blankGeneral = document.getElementById('blank-filler-general-form');
         blankGeneral.elements['blank-filler-general-time'].value = config.general.blankTime;
         blankGeneral.elements['blank-filler-number'].value = config.general.blankNumber;
         blankGeneral.elements['blank-filler-number'].dispatchEvent(new Event('change'));
 
+        const regexChat = /^twitch/;
+        const regexGreet = /^greet/;
+        const regexBall = /^8ball/;
+        const regexOdd = /^oddeven/;
         const variationsForm = document.getElementsByClassName('variation-form');
         for(let i=0; i < variationsForm.length; i++){
           const type = variationsForm[i].dataset.type;
-          if(config.general[`${type}VariationNumber`] > 1){
+          if(config.general[`${type}VariationNumber`] > 1 && (!regexChat.test(type) || !regexGreet.test(type) || !regexBall.test(type) || !regexOdd.test(type))){
             variationsForm[i].elements[`${type}-variation-number`].value = config.general[`${type}VariationNumber`]-1;
+            variationsForm[i].elements[`${type}-variation-number`].dispatchEvent(new Event('change'));
+          } else if(config.twitch.general.activate && (regexChat.test(type) || regexGreet.test(type) || regexBall.test(type) || regexOdd.test(type)) && config.twitch.general[`${type}VariationNumber`] > 1){
+            variationsForm[i].elements[`${type}-variation-number`].value = config.twitch.general[`${type}VariationNumber`]-1;
             variationsForm[i].elements[`${type}-variation-number`].dispatchEvent(new Event('change'));
           }
         }
 
         document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked = config.general.subgiftActivate;
-
+        if(config.twitch.general.activate){
+          const twitchRegexForm = document.getElementById('twitch-chat-alerts').getElementsByClassName('regex-form');
+          for(let i=0; i < twitchRegexForm.length; i++){
+            const regex = /^\^/;
+            const alert = config.twitch.regex.find(configRegex => configRegex.id === twitchRegexForm[i].dataset.type);
+            if(regex.test(alert.regex)){
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex-option`].value = 'start';
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex`].value = alert.regex.slice(1,alert.regex.length);
+            } else{
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex-option`].value = 'contain';
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex`].value = alert.regex;
+            }
+          }
+          document.getElementById('greet-activation-form').elements['activate-alert-greet'].checked = config.twitch.general.greetActivate;
+          document.getElementById('8ball-activation-form').elements['activate-alert-8ball'].checked = config.twitch.general.ballActivate;
+          document.getElementById('oddeven-activation-form').elements['activate-alert-oddeven'].checked = config.twitch.general.oddevenActivate;
+        }
 
         if(config.general.activateSpeech){
           if(config.general.placeSpeech === 'right'){
@@ -90,6 +124,7 @@
           let type = form.elements['select-preview'].value;
           if(type === 'template') continue;
           let configAlert = config.alerts.find(alert => alert.type === type);
+          if(!configAlert) continue;
           form.elements[`${type}-text-activate`].checked = configAlert.activateSpeech;
           if(config.general.activateSpeech && (typeof configAlert.activate == 'undefined' || configAlert.activate === true) && configAlert.activateSpeech){
             form.elements[`${type}-text`].value = configAlert.textBase;
@@ -114,6 +149,9 @@
           (config.general.shadowText) ? preview.changeShadow('ON') : preview.changeShadow('OFF');
         }
         document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].dispatchEvent(new Event('change'));
+        document.getElementById('greet-activation-form').elements['activate-alert-greet'].dispatchEvent(new Event('change'));
+        document.getElementById('8ball-activation-form').elements['activate-alert-8ball'].dispatchEvent(new Event('change'));
+        document.getElementById('oddeven-activation-form').elements['activate-alert-oddeven'].dispatchEvent(new Event('change'));
         setTimeout(()=>{
           generalForm.elements['base-video-name'].dispatchEvent(new Event('blur'));
         }, 20);
@@ -173,11 +211,19 @@
     let test;
     config.general = {};
     config.alerts = [];
+    config.twitch = {};
+    config.twitch.general = {};
+    config.twitch.regex = [];
     const bubbleText = document.getElementById('textBubble');
     const generalForm = document.getElementById('form-general');
     const alertsForms = document.getElementsByClassName('alerts-form');
     const generalBlank = document.getElementById('blank-filler-general-form');
     const variationForms = document.getElementsByClassName('variation-form');
+    const generalTwitch = document.getElementById('form-twitch-general');
+    const regexChat = /^twitch/;
+    const regexGreet = /^greet/;
+    const regexBall = /^8ball/;
+    const regexOdd = /^oddeven/;
 
     if(generalForm.elements['streamlabs-token'].value.trim() != ''){
       config.general.token = generalForm.elements['streamlabs-token'].value.trim();
@@ -253,16 +299,57 @@
     }
 
     for(let i=0; i < variationForms.length; i++){
-      config.general[`${variationForms[i].dataset.type}VariationNumber`] = Number(variationForms[i].elements[`${variationForms[i].dataset.type}-variation-number`].value)+1;
+      console.log(generalTwitch.elements['twitch-activate'].checked);
+      if(generalTwitch.elements['twitch-activate'].checked && (regexChat.test(variationForms[i].dataset.type) || regexGreet.test(variationForms[i].dataset.type) || regexBall.test(variationForms[i].dataset.type) || regexOdd.test(variationForms[i].dataset.type))){
+        config.twitch.general[`${variationForms[i].dataset.type}VariationNumber`] = Number(variationForms[i].elements[`${variationForms[i].dataset.type}-variation-number`].value)+1;
+      } else if(!regexChat.test(variationForms[i].dataset.type) && !regexGreet.test(variationForms[i].dataset.type) && !regexBall.test(variationForms[i].dataset.type) && variationForms[i].dataset.type !== 'templateTwitch' && !regexOdd.test(variationForms[i].dataset.type)){
+        config.general[`${variationForms[i].dataset.type}VariationNumber`] = Number(variationForms[i].elements[`${variationForms[i].dataset.type}-variation-number`].value)+1;
+      }
+    }
+
+    if(generalTwitch.elements['twitch-activate'].checked){
+      config.twitch.general.activate = true;
+      if(generalTwitch.elements['twitch-name'].value.trim() != ''){
+        config.twitch.general.botName = generalTwitch.elements['twitch-name'].value.trim();
+        generalTwitch.elements['twitch-name'].removeAttribute('class');
+      } else{
+        errorConfig = true;
+        generalTwitch.elements['twitch-name'].className = 'error-input';
+      }
+      if(generalTwitch.elements['twitch-password'].value.trim() != ''){
+        config.twitch.general.botPassword = generalTwitch.elements['twitch-password'].value.trim();
+        generalTwitch.elements['twitch-password'].removeAttribute('class');
+      } else{
+        errorConfig = true;
+        generalTwitch.elements['twitch-password'].className = 'error-input';
+      }
+      if(generalTwitch.elements['twitch-channel'].value.trim() != ''){
+        config.twitch.general.botChannel = generalTwitch.elements['twitch-channel'].value.trim();
+        generalTwitch.elements['twitch-channel'].removeAttribute('class');
+      } else{
+        errorConfig = true;
+        generalTwitch.elements['twitch-channel'].className = 'error-input';
+      }
+    } else{
+      config.twitch.general.activate = false;
     }
 
     for(let i = 0; i < alertsForms.length; i++){
       let alert = {};
       alert.type = alertsForms[i].elements['select-preview'].value;
-      if(alert.type === 'template') continue;
+      if(alert.type === 'template' || (!generalTwitch.elements['twitch-activate'].checked && (regexChat.test(alert.type) || regexGreet.test(alert.type) || regexBall.test(alert.type) || regexOdd.test(alert.type)))) continue;
+      if(alert.type === 'greet-1'){
+        config.twitch.general[`${alertsForms[i].dataset.type}Activate`] = document.getElementById(`${alertsForms[i].dataset.type}-activation-form`).elements[`activate-alert-${alertsForms[i].dataset.type}`].checked;
+      } else if(alert.type === '8ball-1'){
+        config.twitch.general[`ballActivate`] = document.getElementById(`${alertsForms[i].dataset.type}-activation-form`).elements[`activate-alert-${alertsForms[i].dataset.type}`].checked;
+      } else if(alert.type === 'oddeven-1'){
+        config.twitch.general[`oddevenActivate`] = document.getElementById(`${alertsForms[i].dataset.type}-activation-form`).elements[`activate-alert-${alertsForms[i].dataset.type}`].checked;
+      }
+      if((regexGreet.test(alert.type) && !config.twitch.general.greetActivate) || (regexBall.test(alert.type) && !config.twitch.general.ballActivate)) continue;
       if(alert.type === 'subgift-1' || alert.type === 'bomb-1'){
         config.general[`${alertsForms[i].dataset.type}Activate`] = document.getElementById(`${alertsForms[i].dataset.type}-activation-form`).elements[`activate-alert-${alertsForms[i].dataset.type}`].checked;
       }
+      if(!config.general[`${alertsForms[i].dataset.type}Activate`] && alertsForms[i].dataset.type === 'subgift') continue;
       if(config.general.activateSpeech && (typeof alert.activate == 'undefined' || alert.activate === true) && alertsForms[i].elements[`${alert.type}-text-activate`].checked){
         alert.activateSpeech = true;
         if(alerts.testText(alertsForms[i].elements[`${alert.type}-text`])){
@@ -303,25 +390,46 @@
         alert.typographyId = '';
         alert.activateSpeech = false;
       }
-      if((typeof alert.activate == 'undefined' || alert.activate === true)){
-        if(config.general.videoimage === 'video'){
-          await alerts.testVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]).catch(()=>{
-            errorConfig = true;
-            alerts.errorVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]);
-          });
-        } else{
-          await alerts.testImage(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]).catch(()=>{
-            errorConfig = true;
-            alerts.errorVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]);
-          });
-        }
-        alert.video = `${alertsForms[i].elements[`${alert.type}-video`].value}.${alertsForms[i].elements[`${alert.type}-video-extension`].value}`;
-        alert.videoId = alertsForms[i].elements[`${alert.type}-video`].value;
+      if(config.general.videoimage === 'video'){
+        await alerts.testVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]).catch(()=>{
+          errorConfig = true;
+          alerts.errorVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]);
+        });
       } else{
-        alert.video = 'novideo.video';
-        alert.videoId = 'novideo';
+        await alerts.testImage(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]).catch(()=>{
+          errorConfig = true;
+          alerts.errorVideo(alertsForms[i].elements[`${alert.type}-video`], alertsForms[i].elements[`${alert.type}-video-extension`]);
+        });
       }
+      alert.video = `${alertsForms[i].elements[`${alert.type}-video`].value}.${alertsForms[i].elements[`${alert.type}-video-extension`].value}`;
+      alert.videoId = alertsForms[i].elements[`${alert.type}-video`].value;
+
       config.alerts.push(alert);
+    }
+
+    if(generalTwitch.elements['twitch-activate'].checked){
+      const regexForms = document.getElementsByClassName('regex-form');
+      for(let i=0; i < regexForms.length; i++){
+        if(regexForms[i].dataset.type === 'templateTwitch') continue;
+        const regexObj = {};
+        const type = regexForms[i].dataset.type;
+        console.log(regexForms[i].elements[`${type}-regex`].value.trim());
+        if(regexForms[i].elements[`${type}-regex`].value.trim() === ''){
+          regexForms[i].elements[`${type}-regex`].className = 'error-input';
+          errorConfig = true;
+          continue;
+        } else{
+          regexForms[i].elements[`${type}-regex`].removeAttribute('class');
+        }
+        if(regexForms[i].elements[`${type}-regex-option`].value === 'contain'){
+          regexObj.regex = `${regexForms[i].elements[`${type}-regex`].value}`;
+        } else if(regexForms[i].elements[`${type}-regex-option`].value === 'start'){
+          regexObj.regex = `^${regexForms[i].elements[`${type}-regex`].value}`;
+        }
+        regexObj.timeOut = 1;
+        regexObj.id = regexForms[i].dataset.type;
+        config.twitch.regex.push(regexObj);
+      }
     }
 
     let grey = document.createElement('div');
@@ -388,7 +496,16 @@
         text += ',';
       }
     }
-    text += ']};';
+    text += '],';
+    text += `twitch:{general:${JSON.stringify(config.twitch.general)},regex:[`;
+    for(let i=0; i < config.twitch.regex.length; i++){
+      let regex = config.twitch.regex[i];
+      text += `{regex:"${regex.regex}",id:"${regex.id}"}`;
+      if(alert !== config.twitch.regex[config.twitch.regex.length-1]){
+        text += ',';
+      }
+    }
+    text += ']}};';
     return text;
   };
 

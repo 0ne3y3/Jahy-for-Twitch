@@ -43,6 +43,9 @@ window.onload = function(){
       const buttonsNav2 = document.getElementsByClassName('nav-button-2');
       switch(e.currentTarget.id){
         case 'nav-streamlabs':
+          for(let i=0; i < buttonsNav2.length; i++){
+            buttonsNav2[i].setAttribute('hidden', 'hidden');
+          }
           buttonsNav2[0].className = 'nav-button-2 nav-active';
           buttonsNav2[0].removeAttribute('hidden');
           buttonsNav2[1].className = 'nav-button-2';
@@ -55,7 +58,13 @@ window.onload = function(){
           for(let i=0; i < buttonsNav2.length; i++){
             buttonsNav2[i].setAttribute('hidden', 'hidden');
           }
-          document.getElementById('twitch-chat').removeAttribute('hidden');
+          buttonsNav2[3].className = 'nav-button-2 nav-active';
+          buttonsNav2[3].removeAttribute('hidden');
+          buttonsNav2[4].className = 'nav-button-2';
+          buttonsNav2[4].removeAttribute('hidden');
+          buttonsNav2[5].className = 'nav-button-2';
+          buttonsNav2[5].removeAttribute('hidden');
+          document.getElementById('twitch-chat-general').removeAttribute('hidden');
           break;
         case 'nav-others':
           for(let i=0; i < buttonsNav2.length; i++){
@@ -91,6 +100,15 @@ window.onload = function(){
           break;
         case 'nav-variation':
           document.getElementById('subgift-and-bomb').removeAttribute('hidden');
+          break;
+        case 'nav-twitch-general':
+          document.getElementById('twitch-chat-general').removeAttribute('hidden');
+          break;
+        case 'nav-twitch-advanced':
+          document.getElementById('twitch-chat-advanced').removeAttribute('hidden');
+          break;
+        case 'nav-twitch-others':
+          document.getElementById('twitch-chat-others').removeAttribute('hidden');
           break;
       }
     });
@@ -200,11 +218,11 @@ window.onload = function(){
   /* Clicking on a alert form */
   const alertsForm = document.getElementsByClassName('alerts-form');
   for(let i = 0; i < alertsForm.length; i++){
-    if(alertsForm[i].id === 'template-form') continue;
+    if(alertsForm[i].id === 'template-form' || alertsForm[i].id === 'templateTwitch-form') continue;
     const select = alertsForm[i].elements['select-preview'].value;
     alertsForm[i].addEventListener('click', function(e){
       const form = e.currentTarget;
-      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked)){
+      if((!form.elements['select-preview'].checked || e.target.className === 'select-preview') && e.target.className !== 'activate-alert' && (form.dataset.type !== 'subgift' || document.getElementById('subgift-activation-form').elements['activate-alert-subgift'].checked) && (form.dataset.type !== 'subbomb' || document.getElementById('subbomb-activation-form').elements['activate-alert-subbomb'].checked) && (form.dataset.type !== 'greet' || document.getElementById('greet-activation-form').elements['activate-alert-greet'].checked) && (form.dataset.type !== '8ball' || document.getElementById('8ball-activation-form').elements['activate-alert-8ball'].checked) && (form.dataset.type !== 'oddeven' || document.getElementById('oddeven-activation-form').elements['activate-alert-oddeven'].checked)){
         alerts.uncheckPreviewForms();
         alerts.checkPreviewForm(form);
         alerts.resetForm(form);
@@ -271,10 +289,10 @@ window.onload = function(){
     variationForm.elements[`${alertsForm[i].dataset.type}-variation-number`].addEventListener('change', alerts.variationChange);
   }
 
-  /* SUBGIFT-BOMB FORM */
-  const subgiftBombActivate = document.getElementsByClassName('activate-alert');
-  for(let i=0; i < subgiftBombActivate.length; i++){
-    subgiftBombActivate[i].addEventListener('change', alerts.activateAlert);
+  /* SUBGIFT-BOMB-GREET-ETC FORM */
+  const formActivate = document.getElementsByClassName('activate-alert');
+  for(let i=0; i < formActivate.length; i++){
+    formActivate[i].addEventListener('change', alerts.activateAlert);
   }
 
   /* CONFIGURATION */
@@ -284,6 +302,11 @@ window.onload = function(){
   /* OTHERS */
   const generalBlank = document.getElementById('blank-filler-general-form');
   generalBlank.elements['blank-filler-number'].addEventListener('change', alerts.blankFillerChange);
+
+  /* TWITCH CHAT */
+  document.getElementById('form-twitch-general').elements['twitch-activate'].addEventListener('change', twitchChat.activateOptions);
+  document.getElementById('public-bot').addEventListener('click', twitchChat.publicKeys);
+  document.getElementById('twitch-chat-form-number').elements['twitch-chat-number'].addEventListener('change', alerts.twitchChatNumber);
 };
 
 /* When scrolling  */

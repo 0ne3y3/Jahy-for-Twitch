@@ -22,7 +22,9 @@
           <button type="button">Twitch chat</button>
         </div>
         <div class="small-button" data-bigmenu="Twitch chat">
-          <button type="button" disabled>Soon tm</button>
+          <button type="button">Twitch tutorial</button>
+          <button type="button">Twitch chat</button>
+          <button type="button">Others</button>
         </div>
       </div>
       <div class="nav-bar">
@@ -217,10 +219,69 @@
         <p class="paragraph">File name of the video/image to display when the alert is triggered. videos/images have to be in "video" folder.</p>
         <p class='separator'></p>
         <h2 id="variations">Add variation</h2>
-        <p class="paragraph">If you want to add some variation to this alert, the script will choose randomly between your variation and display the animation.</p>
+        <p class="paragraph">If you want to add some variation to this alert, the script will choose randomly between your variations and display its animation.</p>
       </div>
-      <div class='section-view' id='soon-tm' hidden>
-        <p class="bold">Soon TM</p>
+      <div class='section-view' id='twitch-tutorial' hidden>
+        <h1>Twitch tutorial</h1>
+        <ol>
+          <li>First you need to create a Twitch account for your bot. You can use your own account but I don't know if Twitch considerate it "illegal"</li>
+          <li>Then you need to get the Oauth password, because bots account doesn't use normal password
+            <ul>
+              <li>Connect to twitch app with your bot account : <a href='https://twitchapps.com/tmi/' target="_blank">TMI website</a></li>
+              <li>Authorize the application to connect with your account</li>
+              <li>Copy all the password</li>
+            </ul>
+          </li>
+          <div class='section-image'>
+            <img src='./img/twitch-oauth.png'/>
+            <p class='descriptions'>The TMI website</p>
+          </div>
+          <li>In the configuration page, go to "Twitch chat" section => "General". Activate the twitch chat option</li>
+          <div class='section-image'>
+            <img src='./img/twitch-general.png'/>
+            <p class='descriptions'>The twitch general menu</p>
+          </div>
+          <li>Fill the fields:
+            <ol>
+              <li>Your twitch bot account name</li>
+              <li>The Oauth password generated earlier. Don't forget to copy "oauth:" with it.</li>
+              <li>Your twitch channel (where you stream)</li>
+            </ol>
+          </li>
+          <li>It's already done, see others section to configure regex and mini games.</li>
+        </ol>
+      </div>
+      <div class='section-view' id='twitch-chat' hidden>
+        <h1>Twitch chat</h1>
+        <div class='section-image'>
+          <img src='./img/twitch-chat-menu.png'/>
+          <p class='descriptions'>The twitch chat menu</p>
+        </div>
+        <p class='separator'></p>
+        <h2 id="twitch-option">Option</h2>
+        <p class="paragraph">Choose if the keyword have to be contained in the sentence, or if it have to be the first word of the sentence. For exemple we take 3 sentences :</p>
+        <p class="paragraph">1) "It's super ! PogChamp"</p>
+        <p class="paragraph">2) "PogChamp"</p>
+        <p class="paragraph">3) "PogChamp super cool !"</p>
+        <p class="paragraph">If the keyword is "PogChamp" and the option is "contain", then all those 3 sentences will trigger the animation. If it's "start with", only the second and third sentence will trigger the animation.</p>
+        <p class="paragraph">You'll probably only use "start with" when it's for a command like "!twitter".</p>
+        <p class='separator'></p>
+        <h2 id="twitch-word">Word</h2>
+        <p class="paragraph">The word that will trigger the animation. Small tip, it can be a sentence. Words are case insensitive so "pogchamp" = "PogChamp" = "POGCHAMP".</p>
+        <p class="paragraph disclaimer"><span class="bold">/!\</span> Any Unicode characters are available except: "/\ [] () {} ? + * | ."... To use those, you need to place \ before. For exemple "money \$\$\$" for "money $$$".</p>
+        <p class='separator'></p>
+        <h2 id="twitch-alert">Alert configuration</h2>
+        <p class="paragraph">The configuration is the same as any other alert. See the section Streamlabs => Advanced Configuration.</p>
+      </div>
+      <div class='section-view' id='others' hidden>
+        <h1>Twitch others</h1>
+        <div class='section-image'>
+          <img src='./img/twitch-chat-other.png'/>
+          <p class='descriptions'>The twitch others menu</p>
+        </div>
+        <p class='separator'></p>
+        <h2 id="twitch-minigame">Say hi to chat and mini games</h2>
+        <p class="paragraph">I added some mini games and small function. Alert configuration work the same as any other alert. See the section Streamlabs => Advanced Configuration.</p>
       </div>
       <div class='section-view' id='blank-filler' hidden>
         <h1>Blank filler</h1>
@@ -229,11 +290,11 @@
           <p class='descriptions'>The blank filler menu</p>
         </div>
         <p class='separator'></p>
-        <h2 id="center-text">Time</h2>
+        <h2 id="blank-time">Time</h2>
         <p class="paragraph">If there is no twitch event (follow/etc...) after X minutes, it play a random alert in the list below.</p>
         <p class="paragraph">If an alert is triggered, it reset the timer.</p>
         <p class='separator'></p>
-        <h2 id="center-text">How many alerts</h2>
+        <h2 id="blank-alerts">How many alerts</h2>
         <p class="paragraph">How many alerts you want to add to the list.</p>
         <p class="paragraph">The configuration of thoses alerts are the same as streamlabs alerts. So see "Advanced configuration" section.</p>
       </div>

@@ -18,7 +18,12 @@
         <div class='nav-bars' id='cat-2'>
           <button class='nav-button-2 nav-active' id='nav-general'>General</button>
           <button class='nav-button-2' id='nav-advanced'>Advanced</button>
-          <button class='nav-button-2' id='nav-variation'>Variations</button>
+          <button class='nav-button-2' id='nav-variation'>Others</button>
+        </div>
+        <div class='nav-bars' id='cat-3'>
+          <button class='nav-button-2' id='nav-twitch-general' hidden>General</button>
+          <button class='nav-button-2' id='nav-twitch-advanced' hidden disabled>Advanced</button>
+          <button class='nav-button-2' id='nav-twitch-others' hidden disabled>Others</button>
         </div>
       </div>
       <div class="tabs" id='general'>
@@ -30,7 +35,7 @@
         <div class="separator"></div>
         <form id='form-general'>
           <div>
-            <label class="labels-general labels-font-normal" for="streamlabs-token">Streamlabs token:</label><input type="text" name="streamlabs-token" placeholder="Enter your token here" value="">
+            <label class="labels-general labels-font-normal" for="streamlabs-token">Streamlabs token:</label><input type="text" name="streamlabs-token" placeholder="Enter your token here" value="" />
           </div>
           <div>
             <p class="p-general">Use video or image:</p>
@@ -784,7 +789,7 @@
             <h3>Add subgift variation</h3>
             <form id="subgift-variation-form" class="variation-form" data-type="subgift">
               <div class="options variation-options">
-                <label for="subgift-variation-number">How many alerts :</label><input type="number" name="subgift-variation-number" value="0" disabled/>
+                <label for="subgift-variation-number">How many alerts:</label><input type="number" name="subgift-variation-number" value="0" disabled/>
               </div>
             </form>
             <div id='subgift-variation-form-container'>
@@ -792,9 +797,234 @@
           </div>
         </div>
       </div>
-      <div class="tabs" id='twitch-chat' hidden>
-        <h1>Twitch chat</h1>
-        <h2>Soon tm</h2>
+      <div class="tabs" id='twitch-chat-general' hidden>
+        <h1>Twitch chat general</h1>
+        <form id='form-twitch-general'>
+          <div>
+            <label class="labels-general labels-font-normal" for="twitch-activate">Activate:</label><input type="checkbox" name="twitch-activate" />
+          </div>
+          <p class='informations'>If you're too lazy to create a twitch bot account, I created a public one for everyone, but it's possible the bot got banned if people mess with it.</p>
+          <div>
+            <button id='public-bot' disabled>Use public bot</button>
+          </div>
+          <div>
+            <label class="labels-general labels-font-normal" for="twitch-name">Username:</label><input type="text" name="twitch-name" placeholder="Enter the username of the bot here" value="" disabled />
+          </div>
+          <div>
+            <label class="labels-general labels-font-normal" for="twitch-password">Twitch password:</label><input type="text" name="twitch-password" placeholder="Enter the oauth password of the bot here" value="" disabled />
+          </div>
+          <div>
+            <label class="labels-general labels-font-normal" for="twitch-channel">Channel:</label><input type="text" name="twitch-channel" placeholder="Enter your twitch channel here" value="" disabled />
+          </div>
+        </form>
+      </div>
+      <div class="tabs" id='twitch-chat-advanced' hidden>
+        <h1>Twitch chat advanced</h1>
+        <div>
+          <p class="informations">${name} is the username who typed the sentence.</p>
+          <p class="separator-double"></p>
+          <p class="separator-double"></p>
+          <form id="twitch-chat-form-number">
+            <div class="options">
+              <label for="twitch-chat-number">How many alerts:</label><input type="number" name="twitch-chat-number" value="0"/>
+            </div>
+          </form>
+          <p class="separator-double"></p>
+          <p class="separator-double"></p>
+          <div id='twitch-chat-alerts'>
+          </div>
+        </div>
+      </div>
+      <div class="tabs" id='twitch-chat-others' hidden>
+        <h1>Twitch chat others</h1>
+          <div>
+            <h2>Say hi to chat</h2>
+            <p class="descriptions">Greet peoples when they type their first message in chat.</p>
+            <form id='greet-activation-form'>
+              <label for="activate-alert-greet">Activate alert:</label>
+              <input class="activate-alert" type="checkbox" name="activate-alert-greet" value="greet" />
+            </form>
+            <div class="separator"></div>
+            <form class="alerts-form" id="greet-form-1" data-type="greet">
+              <input class="select-preview" type="radio" name="select-preview" value="greet-1" disabled />
+              <div class="option-container">
+                <div class="options">
+                  <label for="greet-1-text-activate">Activate text:</label><input type="checkbox" name="greet-1-text-activate" checked disabled/>
+                </div>
+                <div class="options" id="option-greet-text">
+                  <p class="informations">${name} is the username who typed the sentence.</p>
+                  <label for="greet-1-text">Text:</label><input type="text" name="greet-1-text" placeholder="Type your message here" value="Hey hey ${name} !" disabled />
+                </div>
+                <div class="options">
+                  <label for="greet-1-font-size">Font size:</label><input type="number" name="greet-1-font-size" value="40" disabled />
+                  <p class="informations inline-text">pixels</p>
+                </div>
+                <div class="options">
+                  <label for="greet-1-bubble-time">Bubble time:</label><input type="number" name="greet-1-bubble-time" value="0.6" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="greet-1-text-time">Text time:</label><input type="number" name="greet-1-text-time" value="0.3" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="greet-1-time-active">Active time:</label><input type="number" name="greet-1-time-active" value="3" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="separator"></div>
+                <div class="options">
+                  <label for="greet-1-bubble-name">Name of the bubble:</label><input type="text" name="greet-1-bubble-name" value="normalBubble" disabled />
+                  <p class="informations inline-text">.png</p>
+                </div>
+                <div class="options">
+                  <label for="greet-1-typo-name">Typography:</label><input type="text" name="greet-1-typo-name" value="DiamondRegular" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="greet-1-typo-extension" value="ttf" disabled />
+                </div>
+                <div class="options">
+                  <label for="greet-1-video">Video name:</label><input type="text" name="greet-1-video" value="Hi" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="greet-1-video-extension" value="webm" disabled />
+                </div>
+              </div>
+            </form>
+            <div class="separator"></div>
+            <h3>Add greet variation</h3>
+            <form id="greet-variation-form" class="variation-form" data-type="greet">
+              <div class="options variation-options">
+                <label for="greet-variation-number">How many alerts:</label><input type="number" name="greet-variation-number" value="0" disabled/>
+              </div>
+            </form>
+            <div id='greet-variation-form-container'>
+            </div>
+          </div>
+          <div class="separator-double"></div>
+          <div class="separator-double"></div>
+          <div>
+            <h2>8ball</h2>
+            <p class="descriptions">People ask a question, your character tell their fate ! The command is ";8ball your-question".</p>
+            <form id='8ball-activation-form'>
+              <label for="activate-alert-8ball">Activate alert:</label>
+              <input class="activate-alert" type="checkbox" name="activate-alert-8ball" value="8ball" />
+            </form>
+            <div class="separator"></div>
+            <form class="alerts-form" id="8ball-form-1" data-type="8ball">
+              <input class="select-preview" type="radio" name="select-preview" value="8ball-1" disabled />
+              <div class="option-container">
+                <div class="options">
+                  <label for="8ball-1-text-activate">Activate text:</label><input type="checkbox" name="8ball-1-text-activate" checked disabled/>
+                </div>
+                <div class="options" id="option-8ball-text">
+                  <p class="informations">${name} is the username who typed the sentence.</p>
+                  <label for="8ball-1-text">Text:</label><input type="text" name="8ball-1-text" placeholder="Type your message here" value="No, I don't think so..." disabled />
+                </div>
+                <div class="options">
+                  <label for="8ball-1-font-size">Font size:</label><input type="number" name="8ball-1-font-size" value="40" disabled />
+                  <p class="informations inline-text">pixels</p>
+                </div>
+                <div class="options">
+                  <label for="8ball-1-bubble-time">Bubble time:</label><input type="number" name="8ball-1-bubble-time" value="0.8" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="8ball-1-text-time">Text time:</label><input type="number" name="8ball-1-text-time" value="0.4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="8ball-1-time-active">Active time:</label><input type="number" name="8ball-1-time-active" value="4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="separator"></div>
+                <div class="options">
+                  <label for="8ball-1-bubble-name">Name of the bubble:</label><input type="text" name="8ball-1-bubble-name" value="normalBubble" disabled />
+                  <p class="informations inline-text">.png</p>
+                </div>
+                <div class="options">
+                  <label for="8ball-1-typo-name">Typography:</label><input type="text" name="8ball-1-typo-name" value="DiamondRegular" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="8ball-1-typo-extension" value="ttf" disabled />
+                </div>
+                <div class="options">
+                  <label for="8ball-1-video">Video name:</label><input type="text" name="8ball-1-video" value="Smug" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="8ball-1-video-extension" value="webm" disabled />
+                </div>
+              </div>
+            </form>
+            <div class="separator"></div>
+            <h3>Add 8ball variation</h3>
+            <form id="8ball-variation-form" class="variation-form" data-type="8ball">
+              <div class="options variation-options">
+                <label for="8ball-variation-number">How many alerts:</label><input type="number" name="8ball-variation-number" value="0" disabled/>
+              </div>
+            </form>
+            <div id='8ball-variation-form-container'>
+            </div>
+          </div>
+          <div class="separator-double"></div>
+          <div class="separator-double"></div>
+          <div>
+            <h2>Dice 20</h2>
+            <p class="descriptions">Roll a dice between 1 and 20. The command is ";d20 your-guess".</p>
+            <form id='oddeven-activation-form'>
+              <label for="activate-alert-oddeven">Activate alert:</label>
+              <input class="activate-alert" type="checkbox" name="activate-alert-oddeven" value="oddeven" />
+            </form>
+            <div class="separator"></div>
+            <form class="alerts-form" id="oddeven-form-1" data-type="oddeven">
+              <input class="select-preview" type="radio" name="select-preview" value="oddeven-1" disabled />
+              <div class="option-container">
+                <div class="options">
+                  <label for="oddeven-1-text-activate">Activate text:</label><input type="checkbox" name="oddeven-1-text-activate" checked disabled/>
+                </div>
+                <div class="options" id="option-oddeven-text">
+                  <p class="informations">${name} is the username who typed the sentence.</p>
+                  <p class="informations">${amount} is the random number.</p>
+                  <label for="oddeven-1-text">Text:</label><input type="text" name="oddeven-1-text" placeholder="Type your message here" value="${name} : And it's ${amount} !" disabled />
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-font-size">Font size:</label><input type="number" name="oddeven-1-font-size" value="31" disabled />
+                  <p class="informations inline-text">pixels</p>
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-bubble-time">Bubble time:</label><input type="number" name="oddeven-1-bubble-time" value="0.8" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-text-time">Text time:</label><input type="number" name="oddeven-1-text-time" value="0.4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-time-active">Active time:</label><input type="number" name="oddeven-1-time-active" value="4" disabled />
+                  <p class="informations inline-text">seconds</p>
+                </div>
+                <div class="separator"></div>
+                <div class="options">
+                  <label for="oddeven-1-bubble-name">Name of the bubble:</label><input type="text" name="oddeven-1-bubble-name" value="yellBubble" disabled />
+                  <p class="informations inline-text">.png</p>
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-typo-name">Typography:</label><input type="text" name="oddeven-1-typo-name" value="Bacoter" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="oddeven-1-typo-extension" value="otf" disabled />
+                </div>
+                <div class="options">
+                  <label for="oddeven-1-video">Video name:</label><input type="text" name="oddeven-1-video" value="Happy" disabled />
+                  <p class="informations inline-text">.</p>
+                  <input class="extensions" type="text" name="oddeven-1-video-extension" value="webm" disabled />
+                </div>
+              </div>
+            </form>
+            <div class="separator"></div>
+            <h3>Add Dice 20 variation</h3>
+            <form id="oddeven-variation-form" class="variation-form" data-type="oddeven">
+              <div class="options variation-options">
+                <label for="oddeven-variation-number">How many alerts:</label><input type="number" name="oddeven-variation-number" value="0" disabled/>
+              </div>
+            </form>
+            <div id='oddeven-variation-form-container'>
+            </div>
+          </div>
       </div>
       <div class="tabs" id='others' hidden>
         <h1>Blank filler</h1>
@@ -857,6 +1087,25 @@
               </div>
             </div>
           </form>
+          <div class='twitch-alert' id="templateTwitch" hidden>
+            <h2></h2>
+            <form class="regex-form" id="templateTwitch-regex" data-type="templateTwitch">
+              <div class="options">
+                <label for="templateTwitch-regex-option">Option:</label><select name="templateTwitch-regex-option"><option value='contain'>Contain</option><option value='start'>Start with</option></select>
+                <label for="templateTwitch-regex">Word:</label><input type="text" name="templateTwitch-regex"/>
+              </div>
+            </form>
+            <p class='separator'></p>
+            <p class='separator'></p>
+            <h3>Add variation</h3>
+            <form id="templateTwitch-variation-form" class="variation-form" data-type="templateTwitch">
+              <div class="options variation-options">
+                <label for="templateTwitch-variation-number">How many variation:</label><input type="number" name="templateTwitch-variation-number" value="0"/>
+              </div>
+            </form>
+            <div id='templateTwitch-variation-form-container'>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -874,6 +1123,7 @@
       </div>
     </div>
     <script type="text/javascript" src='js/config-preview.js'></script>
+    <script type="text/javascript" src='js/config-twitch.js'></script>
     <script type="text/javascript" src='js/config-alerts.js'></script>
     <script type="text/javascript" src='js/config-generate-load.js'></script>
     <script type="text/javascript" src='js/root-config.js'></script>

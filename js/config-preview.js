@@ -211,9 +211,11 @@
           alertsForms[i].elements['select-preview'].checked = true;
         }
         let type = alertsForms[i].elements['select-preview'].value;
+        let dataset = alertsForms[i].dataset.type;
         for(let j=0; j < alertsForms[i].elements.length; j++){
-          if(type === 'subgift' || type === 'bomb'){
-            if(alertsForms[i].elements[`activate-alert-${type}`].checked && alertsForms[i].elements[`${type}-text-activate`].checked){
+          if(dataset === 'subgift' || dataset === 'bomb' || dataset === 'greet' || dataset === '8ball' || dataset === 'oddeven'){
+            let activateForm = document.getElementById(`${dataset}-activation-form`).elements[`activate-alert-${dataset}`];
+            if(activateForm.checked && alertsForms[i].elements[`${type}-text-activate`].checked){
               alertsForms[i].elements[j].removeAttribute('disabled', '');
             }
           } else{
