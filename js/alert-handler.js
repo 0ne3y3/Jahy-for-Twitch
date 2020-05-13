@@ -113,6 +113,9 @@
   const alerts = new Array();
   let timeGapAdd = 0;
   let baseVideo;
+  const alertFinisher = {};
+  alertFinisher.bubble = true;
+  alertFinisher.video = true;
 
   const findAlert = function(){
     return alerts.find(alert => alert.alreadyDisplayed === false);
@@ -134,6 +137,7 @@
   };
 
   alertHandler.triggerAlertVideo = function(e){
+    alertFinisher.video = false;
     if(config.general.videoimage === 'video'){
       baseVideo.pause();
       e.target.removeAttribute('hidden');
@@ -163,6 +167,7 @@
   };
 
   alertHandler.triggerAlertBubble = function(e, imgId){
+    alertFinisher.bubble = false;
     textBubble.style.fontSize = e.detail.config.fontSize;
     textBubble.style.fontFamily = `${e.detail.config.typographyId}, verdana`;
     textBubble.innerHTML = e.detail.config.text(e.detail.alert.name, e.detail.alert.amount, e.detail.alert.currency, e.detail.alert.gifter);
@@ -177,6 +182,7 @@
         textBubble.innerHTML = '';
         e.target.setAttribute('hidden', '');
         e.target.removeAttribute('style');
+        alertFinisher.bubble = true;
         if(config.general.videoimage === 'image') document.getElementById(`${e.detail.config.videoId}-video`).dispatchEvent(new Event('end'));
       }
     }).fromTo(e.target, e.detail.config.bubbleTime, {opacity:0}, {opacity:1}).staggerFrom(words, e.detail.config.textTime, {opacity:0, scale:0, y:80, rotationX:180, transformOrigin:"0% 50% -50",  ease:Back.easeOut}, (e.detail.config.textTime/words.length).toFixed(2), "+=0").to([e.target, words], 0.75, {opacity: 0}, `+=${e.detail.config.timeActive}`);
@@ -184,7 +190,8 @@
 
   alertHandler.endAlert = function(e){
     e.target.pause();
-    if(findAlert()){
+    alertFinisher.video = true;
+    if(findAlert() && alertFinisher.bubble){
       e.target.setAttribute('hidden', '');
       e.target.currentTime = 0;
       alertHandler.alertTesting();
@@ -192,8 +199,8 @@
       baseVideo.removeAttribute('hidden');
       baseVideo.play().then(()=>{
         setTimeout(()=>{
-          if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
           e.target.setAttribute('hidden', '');
+          if(config.general.blankNumber > 0) alertHandler.timerBlank = alertHandler.timeOutBlank();
           e.target.currentTime = 0;
           alertHandler.timerVideo = alertHandler.timeOutTest();
         }, 50);
@@ -202,6 +209,7 @@
   };
 
   alertHandler.endAlertImage = function(e){
+    alertFinisher.video = true;
     if(findAlert()){
       e.target.setAttribute('hidden', '');
       alertHandler.alertTesting();
@@ -240,7 +248,7 @@
 
   alertHandler.alertTesting = function(){
     const alert = findAlert();
-    if(alert){
+    if(alert && alertFinisher.bubble && alertFinisher.video){
       (config.general.videoimage === 'video') ? clearTimeout(alertHandler.timerVideo) : clearTimeout(alertHandler.timerImage);
       alert.alreadyDisplayed = true;
       const alertConfig = findAlertConfig(alert.type);
