@@ -822,6 +822,7 @@
         <h1>Twitch chat advanced</h1>
         <div>
           <p class="informations">${name} is the username who typed the sentence.</p>
+          <p class="informations">If you use delete/ban/clear command, your bot need to be a moderator.</p>
           <p class="separator-double"></p>
           <p class="separator-double"></p>
           <form id="twitch-chat-form-number">
@@ -1094,6 +1095,18 @@
                 <label for="templateTwitch-regex-option">Option:</label><select name="templateTwitch-regex-option"><option value='contain'>Contain</option><option value='start'>Start with</option></select>
                 <label for="templateTwitch-regex">Word:</label><input type="text" name="templateTwitch-regex"/>
               </div>
+              <div class="options">
+                <label for="templateTwitch-timeout">Timeout:</label><input type="number" name="templateTwitch-timeout" value="1"/><p class="informations inline-text">min</p>
+              </div>
+              <div class="options">
+                <label for="templateTwitch-afterTrigger-option">Commands:</label><select name="templateTwitch-afterTrigger-option"><option value='nothing'>Nothing</option><option value='delete'>Delete message</option><option value='respond'>Send message in chat</option><option value='clear'>Clear the chat</option><option value='ban'>Ban</option></select>
+              </div>
+              <div class="options optionsRegex" data-type="respond" hidden>
+                <label for="templateTwitch-message" hidden>Message:</label><input type="text" name="templateTwitch-message" placeholder='Message sent to the chat' disabled hidden /></select>
+              </div>
+              <div class="options optionsRegex" data-type="ban" hidden>
+                <label for="templateTwitch-ban-time" hidden>Time banned:</label><input type="number" name="templateTwitch-ban-time" value='15' disabled hidden/><p class="informations inline-text" hidden>sec</p></select>
+              </div>
             </form>
             <p class='separator'></p>
             <p class='separator'></p>
@@ -1103,7 +1116,7 @@
                 <label for="templateTwitch-variation-number">How many variation:</label><input type="number" name="templateTwitch-variation-number" value="0"/>
               </div>
             </form>
-            <div id='templateTwitch-variation-form-container'>
+            <div class='twitch-container-variation' id='templateTwitch-variation-form-container'>
             </div>
           </div>
         </div>

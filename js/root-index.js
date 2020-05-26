@@ -23,21 +23,22 @@ if(config.twitch.general.activate){
     if(config.twitch.general.greetActivate && !users.find(username => username === user.username)){
       alertHandler.setGreet(user.username);
       users.push(user.username);
-    } else if(config.twitch.general.ballActivate && new RegExp('^;8ball').test(message)){
+    } else if(config.twitch.general.ballActivate && new RegExp('^;8ball ').test(message)){
       alertHandler.setBall(user.username);
-    } else if(config.twitch.general.oddevenActivate && new RegExp('^;d20').test(message)){
+    } else if(config.twitch.general.oddevenActivate && new RegExp('^;d20 ').test(message)){
       alertHandler.setOddeven(user.username);
     } else{
       for(let i=0; i < config.twitch.regex.length; i++){
         let regex = config.twitch.regex[i];
         let timer = twitchTimers.find(timer => timer.id === regex.id);
-        if(new RegExp(regex.regex, 'i').test(message) && timer.available){
+        if(new RegExp(`(?<!\w)${regex.regex}(?!\w)`, 'i').test(message) && timer.available){
           clearTimeout(timer.timeOut);
           timer.available = false;
           timer.timeOut = setTimeout(()=>{
             timer.available = true;
-          }, 1000*60);
+          }, regex.timeOut*1000*60);
           alertHandler.setChat(user.username, regex.id);
+          alertHandler.commandChat(user, regex.command, regex.text(user.username), regex.banTime);
           break;
         }
       }

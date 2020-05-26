@@ -454,14 +454,58 @@
     for (let j = 0; j < elements.length; j++){
       elements[j].name = alerts.twitchReplaceRegex(elements[j].name, id);
     };
-
-    dupDiv.getElementsByTagName('DIV')[2].id = alerts.twitchReplaceRegex(dupDiv.getElementsByTagName('DIV')[2].id, id);
+    dupDiv.getElementsByClassName('twitch-container-variation')[0].id = alerts.twitchReplaceRegex(dupDiv.getElementsByClassName('twitch-container-variation')[0].id, id);
     forms[1].elements[`${id}-variation-number`].addEventListener('change', alerts.variationChange);
+    forms[0].elements[`${id}-afterTrigger-option`].addEventListener('change', alerts.changeCommand);
+    forms[0].elements[`${id}-timeout`].addEventListener('blur', function(e){
+      if(e.target.value < 1) e.target.value = 1;
+    });
+    forms[0].elements[`${id}-ban-time`].addEventListener('blur', function(e){
+      if(e.target.value < 1) e.target.value = 1;
+    });
     return dupDiv;
   };
 
   alerts.twitchReplaceRegex = function(bef, id){
     return bef.replace('templateTwitch', id);
   };
+
+  alerts.changeCommand = function(e){
+    const optionsDiv = e.target.form.getElementsByClassName('optionsRegex')
+    switch(e.target.value){
+        case 'respond':
+        optionsDiv[0].removeAttribute('hidden');
+        for(let i=0; i < optionsDiv[0].children.length; i++){
+          optionsDiv[0].children[i].removeAttribute('hidden');
+          if(optionsDiv[0].children[i].tagName === 'INPUT') optionsDiv[0].children[i].disabled = false;
+        }
+        optionsDiv[1].setAttribute('hidden', '');
+        for(let i=0; i < optionsDiv[1].children.length; i++){
+          optionsDiv[1].children[i].setAttribute('hidden', '');
+          if(optionsDiv[1].children[i].tagName === 'INPUT') optionsDiv[1].children[i].disabled = true;
+        }
+        break;
+      case 'ban':
+        optionsDiv[1].removeAttribute('hidden');
+        for(let i=0; i < optionsDiv[1].children.length; i++){
+          optionsDiv[1].children[i].removeAttribute('hidden');
+          if(optionsDiv[1].children[i].tagName === 'INPUT') optionsDiv[1].children[i].disabled = false;
+        }
+        optionsDiv[0].setAttribute('hidden', '');
+        for(let i=0; i < optionsDiv[0].children.length; i++){
+          optionsDiv[0].children[i].setAttribute('hidden', '');
+          if(optionsDiv[0].children[i].tagName === 'INPUT') optionsDiv[0].children[i].disabled = true;
+        }
+        break;
+      default:
+        for(let i = 0; i < optionsDiv.length; i++){
+          optionsDiv[i].setAttribute('hidden', '');
+          for(let j=0; j < optionsDiv[i].children.length; j++){
+            optionsDiv[i].children[j].setAttribute('hidden', '');
+            if(optionsDiv[i].children[j].tagName === 'INPUT') optionsDiv[i].children[j].disabled = true;
+          }
+        }
+    }
+  }
 
 }(window.alerts = window.alerts || {}));

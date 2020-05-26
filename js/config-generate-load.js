@@ -57,7 +57,7 @@
         const regexGreet = /^greet/;
         const regexBall = /^8ball/;
         const regexOdd = /^oddeven/;
-        const variationsForm = document.getElementsByClassName('variation-form');
+        let variationsForm = document.getElementsByClassName('variation-form');
         for(let i=0; i < variationsForm.length; i++){
           const type = variationsForm[i].dataset.type;
           if(config.general[`${type}VariationNumber`] > 1 && (!regexChat.test(type) || !regexGreet.test(type) || !regexBall.test(type) || !regexOdd.test(type))){
@@ -82,6 +82,14 @@
               twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex-option`].value = 'contain';
               twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-regex`].value = alert.regex;
             }
+            twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-timeout`].value = alert.timeOut;
+            twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-afterTrigger-option`].value = alert.command;
+            if(alert.command === 'respond'){
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-message`].value = alert.message;
+            } else if (alert.command === 'ban'){
+              twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-ban-time`].value = alert.banTime;
+            }
+            twitchRegexForm[i].elements[`${twitchRegexForm[i].dataset.type}-afterTrigger-option`].dispatchEvent(new Event('change'));
           }
           document.getElementById('greet-activation-form').elements['activate-alert-greet'].checked = config.twitch.general.greetActivate;
           document.getElementById('8ball-activation-form').elements['activate-alert-8ball'].checked = config.twitch.general.ballActivate;
@@ -118,7 +126,6 @@
         generalForm.elements['base-video-name'].value = video[0];
         generalForm.elements['base-video-extension'].value = video[1];
         generalForm.elements['interval-time'].value = config.general.intervalTime;
-
         for(let i=0; i < alertsForms.length; i++){
           let form = alertsForms[i];
           let type = form.elements['select-preview'].value;
@@ -299,7 +306,6 @@
     }
 
     for(let i=0; i < variationForms.length; i++){
-      console.log(generalTwitch.elements['twitch-activate'].checked);
       if(generalTwitch.elements['twitch-activate'].checked && (regexChat.test(variationForms[i].dataset.type) || regexGreet.test(variationForms[i].dataset.type) || regexBall.test(variationForms[i].dataset.type) || regexOdd.test(variationForms[i].dataset.type))){
         config.twitch.general[`${variationForms[i].dataset.type}VariationNumber`] = Number(variationForms[i].elements[`${variationForms[i].dataset.type}-variation-number`].value)+1;
       } else if(!regexChat.test(variationForms[i].dataset.type) && !regexGreet.test(variationForms[i].dataset.type) && !regexBall.test(variationForms[i].dataset.type) && variationForms[i].dataset.type !== 'templateTwitch' && !regexOdd.test(variationForms[i].dataset.type)){
@@ -413,7 +419,6 @@
         if(regexForms[i].dataset.type === 'templateTwitch') continue;
         const regexObj = {};
         const type = regexForms[i].dataset.type;
-        console.log(regexForms[i].elements[`${type}-regex`].value.trim());
         if(regexForms[i].elements[`${type}-regex`].value.trim() === ''){
           regexForms[i].elements[`${type}-regex`].className = 'error-input';
           errorConfig = true;
@@ -428,6 +433,19 @@
         }
         regexObj.timeOut = 1;
         regexObj.id = regexForms[i].dataset.type;
+        regexObj.timeOut = (regexForms[i].elements[`${type}-timeout`].value < 1) ? 1 : regexForms[i].elements[`${type}-timeout`].value;
+        regexObj.command = regexForms[i].elements[`${type}-afterTrigger-option`].value;
+        if(regexForms[i].elements[`${type}-afterTrigger-option`].value === 'respond'){
+          if(regexForms[i].elements[`${type}-message`].value === ''){
+            errorConfig = true;
+            regexForms[i].elements[`${type}-message`].className = 'error-input';
+          }  else{
+            regexForms[i].elements[`${type}-message`].removeAttribute('class');
+            regexObj.message = regexForms[i].elements[`${type}-message`].value;
+          }
+        } else if(regexForms[i].elements[`${type}-afterTrigger-option`].value === 'ban'){
+          regexObj.banTime = (regexForms[i].elements[`${type}-ban-time`].value < 1) ?  1 : regexForms[i].elements[`${type}-ban-time`].value;
+        }
         config.twitch.regex.push(regexObj);
       }
     }
@@ -500,7 +518,8 @@
     text += `twitch:{general:${JSON.stringify(config.twitch.general)},regex:[`;
     for(let i=0; i < config.twitch.regex.length; i++){
       let regex = config.twitch.regex[i];
-      text += `{regex:"${regex.regex}",id:"${regex.id}"}`;
+      text += `{regex:"${regex.regex}",id:"${regex.id}", timeOut:${regex.timeOut}, command:"${regex.command}", message:"${(regex.command === 'respond') ? regex.message : ''}", banTime:${(regex.command === 'ban') ? regex.banTime : 0},`;
+      text += ' text: function(name){return `'+((regex.command === 'respond') ? regex.message : '')+'`}}'
       if(alert !== config.twitch.regex[config.twitch.regex.length-1]){
         text += ',';
       }

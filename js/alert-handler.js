@@ -270,6 +270,23 @@
     }
   };
 
+  alertHandler.commandChat = function(user, command, message, banTime){
+    switch(command){
+      case 'respond':
+        twitchClient.say(config.twitch.general.botChannel, message);
+        break;
+      case 'ban':
+        twitchClient.timeout(config.twitch.general.botChannel, user.username, banTime, "Bot timeout");
+        break;
+      case 'delete':
+        twitchClient.deletemessage(config.twitch.general.botChannel, user.id);
+        break;
+      case 'clear':
+        twitchClient.clear(config.twitch.general.botChannel);
+        break;
+    }
+  };
+
   alertHandler.setConfig = function(video, textArea, textBubble){
     baseVideo = video;
     alertHandler.textArea = document.getElementById('textArea');

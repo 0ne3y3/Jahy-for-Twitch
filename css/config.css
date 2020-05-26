@@ -757,6 +757,14 @@ form[id$='-regex'] input{
   width: 294px;
 }
 
+form[id$='-regex'] input[type="checkbox"]{
+  width: 20px;
+}
+
+form[id$='-regex'] .options:nth-child(2){
+  display: flex;
+}
+
 .alerts-form .options:nth-child(2) input[name^='twitchChat-'][name$='-text']{
   width: 429px;
 }
