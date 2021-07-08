@@ -47,40 +47,35 @@ if(config.twitch.general.activate){
   twitchClient.connect();
 }
 
-const client = new StreamlabsSocket.Client({
-  token: config.general.token,
-  emitTests: true
-});
-
-client.on('follow', (...data)=>{
+const streamlabs = io(`https://sockets.streamlabs.com?token=${config.general.token}`, {transports: ['websocket']});
+streamlabs.on('event', (eventData) => {
   clearTimeout(alertHandler.timerBlank);
-  alertHandler.setFollow(data);
+  console.log(eventData);
+  if (eventData.for === 'streamlabs' && eventData.type === 'donation') {
+    alertHandler.setDonation(eventData.message);
+  }
+  if (eventData.for === 'twitch_account') {
+    switch(eventData.type) {
+      case 'follow':
+        alertHandler.setFollow(eventData.message);
+        break;
+      case 'subscription':
+        alertHandler.setSubscription(eventData.message);
+        break;
+      case 'host':
+        alertHandler.setHost(eventData.message);
+        break;
+      case 'raid':
+        alertHandler.setRaid(eventData.message);
+        break;
+      case 'bits':
+        alertHandler.setBits(eventData.message);
+        break;
+      default:
+        console.log(eventData.message);
+    }
+  }
 });
-client.on('subscription', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setSubscription(data);
-});
-client.on('bits', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setBits(data);
-});
-client.on('host', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setHost(data);
-});
-client.on('donation', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setDonation(data);
-});
-client.on('raid', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setRaid(data);
-});
-client.on('resub', (...data)=>{
-  clearTimeout(alertHandler.timerBlank);
-  alertHandler.setSubscription(data);
-});
-client.connect();
 
 const showError = function(err){
   document.getElementById('videos').setAttribute('hidden', '');

@@ -26,10 +26,8 @@
   class Donation{
     constructor(alert, id){
       this.type = `donation-${id}`;
-      this.name = alert.from;
-      this.currency = alert.currency;
-      alert.amount = alert.amount.toFixed(2);
-      this.amount = Number(alert.amount);
+      this.name = alert.name;
+      this.amount = alert.formatted_amount;
       this.alreadyDisplayed = false;
     }
   };
